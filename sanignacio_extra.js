@@ -142,6 +142,7 @@
     try { if (window.MARCA) Object.assign(window.MARCA, { nombre: E.corto, c1: E.c1, c2: E.c2, fachada: E.corto.toUpperCase(), corto: E.corto.split(' ')[0].toUpperCase() }); } catch (er) {}
     try { const L = window.__mjLOGO; if (L) { L.src = E.logo || ''; L.ar = E.ar || 2; } } catch (er) {}
     const bar = document.querySelector('.logoBar');
+    if (bar) bar.classList.remove('siGrupo');
     if (bar) bar.innerHTML = E.logo ? `<img alt="${E.corto}" src="${E.logo}"><span>${E.head}<br>PROGRAMA DE CAPACITACIÓN</span>` : `<span class="siNom">${E.n.toUpperCase()}</span><span>GRUPO SAN IGNACIO<br>PROGRAMA DE CAPACITACIÓN</span>`;
     document.title = 'Capacitaciones ' + E.corto;
     document.body.classList.add('siIn');
@@ -150,7 +151,9 @@
     M_ACT = null; window.SI_EMP = 'lacteos';
     const r = document.documentElement.style; r.setProperty('--dark', '#0B1F45'); r.setProperty('--dark2', '#12357F'); r.setProperty('--line', '#2A4E96'); r.setProperty('--acc', '#FFC20E'); r.setProperty('--c1', '#12357F');
     const bar = document.querySelector('.logoBar');
-    if (bar) bar.innerHTML = `<div class="siLogos">${ORDEN_EMP.filter(k => EMPRESAS[k].logo).map(k => `<img alt="${EMPRESAS[k].corto}" src="${EMPRESAS[k].logo}">`).join('')}</div><span>GRUPO SAN IGNACIO<br>PROGRAMA DE CAPACITACIÓN</span>`;
+    if (bar) { bar.classList.add('siGrupo');
+      bar.innerHTML = `<div class="siG1">GRUPO SAN IGNACIO</div><div class="siG2">Programa de Capacitación</div><div class="siGl"></div>
+        <div class="siGg">${ORDEN_EMP.map(k => { const E = EMPRESAS[k]; return `<div class="siGt"><div class="siGm">${E.logo ? `<img alt="" src="${E.logo}">` : '<div class="siGi">🏢</div>'}</div><div class="siGn">${E.n.replace(/ S\.A\.$/, '').replace(/ San Ignacio$/, ' San&nbsp;Ignacio')}</div></div>`; }).join('')}</div>`; }
     document.body.classList.remove('siIn');
   }
   const css = document.createElement('style');
@@ -158,6 +161,15 @@
 .logoBar { border-bottom-color:var(--acc) !important; min-height:64px; } .ruta { border-left-color:var(--acc) !important; }
 .logoBar img { height:44px !important; width:auto !important; max-width:58% !important; object-fit:contain; }
 .logoBar .siLogos { display:flex; align-items:center; gap:10px; flex:none; } .logoBar .siLogos img { height:38px !important; max-width:none !important; }
+.logoBar.siGrupo { display:block !important; text-align:center; padding:14px 12px 12px !important; }
+.logoBar .siG1 { font-size:11px; font-weight:bold; letter-spacing:3px; color:#6B7A90; } .logoBar .siG2 { font-size:21px; font-weight:800; color:#12357F; margin-top:2px; line-height:1.15; }
+.logoBar .siGl { width:46px; height:3px; border-radius:2px; background:#F2B33D; margin:9px auto 11px; }
+.logoBar .siGg { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.logoBar .siGt { background:#fff; border:1px solid #E3E8F1; box-shadow:0 2px 6px rgba(18,53,127,.08); border-radius:14px; padding:10px 6px 9px; display:flex; flex-direction:column; align-items:center; gap:7px; }
+.logoBar .siGm { height:42px; display:flex; align-items:center; justify-content:center; width:100%; }
+.logoBar .siGm img { height:42px !important; width:auto !important; max-width:92% !important; object-fit:contain; }
+.logoBar .siGi { width:42px; height:42px; border-radius:50%; background:#1F3A5F; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 0 0 3px #F2B33D55; }
+.logoBar .siGn { font-size:12.5px; font-weight:bold; color:#1F3A5F; line-height:1.2; }
 .logoBar .siNom { color:var(--c1); font-weight:bold; font-size:15px; letter-spacing:1px; line-height:1.2; max-width:52%; }
 .siEmpBtns { display:grid; grid-template-columns:1fr 1fr; gap:10px; } .siEmpBtns a { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-height:96px;
   background:#F7F8FA; border:2px solid #E2E3E8; border-radius:14px; padding:10px; text-decoration:none; color:#1F2937; font-weight:bold; font-size:14px; text-align:center; }
