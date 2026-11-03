@@ -328,51 +328,63 @@
   //      Cada actividad cuenta como una pregunta más de la prueba (se registra en la prueba respondida en PDF).
   const TODAS = ORDEN_EMP;
   const SI_ACT = [
-    // Inducción: actividades de conocimiento y prevención (sin foco en el accidente)
-    { tema: 'induccion', emp: ['lacteos'], tipo: 'marca', q: '🧩 Actividad: vas a entrar a la zona de proceso. Toca TODO lo que debes hacer antes.',
-      items: [['Pasar por el pediluvio', 1], ['Lavarme las manos con jabón', 1], ['Ponerme cofia, mascarilla y guantes', 1], ['Sacarme anillos, aros y reloj', 1], ['Entrar mascando chicle', 0], ['Entrar con el pelo fuera de la cofia', 0]],
-      w: 'Antes de entrar: pediluvio, lavado de manos, EPP de higiene completo y sin accesorios. Dentro no se come ni se masca chicle, y el pelo va completo dentro de la cofia.' },
-    { tema: 'induccion', emp: ['lacteos'], tipo: 'clasifica', q: '🧩 Actividad: ¿esto previene un accidente o lo puede causar?',
-      cats: ['Previene', 'Puede causar'],
-      items: [['Caminar por el pasillo peatonal demarcado', 0], ['Meter la mano en una máquina en marcha para sacar un queso', 1], ['Usar los fonos todo el tiempo en la zona con ruido', 0], ['Levantar más de 25 kg sin ayuda', 1], ['Tapar un extintor con gavetas', 1], ['Seguir el procedimiento de trabajo sin saltarse pasos', 0]],
-      w: 'Se previene caminando por los pasillos peatonales, usando el EPP y siguiendo los procedimientos. Intervenir máquinas en marcha, cargar de más o tapar extintores provoca accidentes.' },
-    { tema: 'induccion', emp: ['agroex'], tipo: 'marca', q: '🧩 Actividad: vas a entrar al packing. Toca TODO lo que debes hacer antes.',
-      items: [['Pasar por el pediluvio', 1], ['Lavarme las manos con jabón', 1], ['Ponerme la cofia con todo el pelo adentro', 1], ['Ponerme la mascarilla', 1], ['Sacarme anillos y pulseras', 1], ['Entrar con sandalias', 0], ['Dejar el pelo suelto bajo la cofia', 0]],
-      w: 'Antes de entrar: pediluvio, lavado de manos, cofia con todo el pelo adentro, mascarilla, zapatos de seguridad y sin accesorios.' },
-    { tema: 'induccion', emp: ['agroex'], tipo: 'clasifica', q: '🧩 Actividad: ¿esto previene un accidente o lo puede causar?',
-      cats: ['Previene', 'Puede causar'],
-      items: [['Caminar por el pasillo peatonal, lejos de las grúas', 0], ['Sacar fruta trabada con la cinta andando', 1], ['Cruzar la línea por la pasarela', 0], ['Mover un bin lleno a mano', 1], ['Tomar agua seguido durante el turno', 0], ['Subirse a la cinta detenida para cruzar', 1]],
-      w: 'Se previene caminando por los pasillos y pasarelas, y cuidándose del calor. Intervenir la cinta en marcha, mover bins llenos a mano o subirse a la cinta provoca accidentes.' },
-    { tema: 'induccion', emp: ['agricola'], tipo: 'marca', q: '🧩 Actividad: toca TODO lo que debes usar para trabajar protegido en el huerto.',
-      items: [['Overol', 1], ['Legionario o jockey con cubrenuca', 1], ['Lentes con filtro UV', 1], ['Bloqueador solar', 1], ['Guantes y calzado de seguridad', 1], ['Polera sin mangas', 0], ['Sandalias', 0]],
-      w: 'En el huerto: overol, legionario o jockey con cubrenuca, lentes con filtro UV y bloqueador, más guantes y calzado de seguridad según la labor.' },
-    { tema: 'induccion', emp: ['agricola'], tipo: 'clasifica', q: '🧩 Actividad: ¿esto previene un accidente o lo puede causar?',
-      cats: ['Previene', 'Puede causar'],
-      items: [['Guardar las tijeras en su funda, no tiradas en la hilera', 0], ['Mover un bin lleno a mano', 1], ['Caminar por el borde del camino, donde el tractorista me vea', 0], ['Subirme al tractor como pasajero', 1], ['Ventilar la bodega 30 minutos antes de limpiarla', 0], ['Entrar a un cuartel recién aplicado antes del reingreso', 1]],
-      w: 'Se previene con orden, caminando a la vista del tractorista y ventilando antes de limpiar. Mover bins a mano, viajar en el tractor o entrar antes del reingreso provoca accidentes e intoxicaciones.' },
-    { tema: 'induccion', emp: ['inversiones'], tipo: 'clasifica', q: '🧩 Actividad: en la oficina, ¿esto previene un accidente o lo puede causar?',
-      cats: ['Previene', 'Puede causar'],
-      items: [['Mantener pasillos y salidas libres', 0], ['Un alargador cruzando el paso', 1], ['Subirme a una silla con ruedas para alcanzar un archivo', 1], ['Cerrar los cajones después de usarlos', 0], ['Llevar cajas de archivo pesadas en un carro', 0], ['Dejar cajas apiladas frente a la salida', 1]],
-      w: 'Pasillos y salidas libres, cajones cerrados y carro para lo pesado previenen caídas y golpes. Cables cruzando el paso, subirse a sillas con ruedas o tapar salidas provoca accidentes.' },
-    { tema: 'induccion', emp: ['inversiones'], tipo: 'marca', q: '🧩 Actividad: vas de visita a la planta de quesos. Toca TODO lo que corresponde.',
-      items: [['Ponerme cofia y mascarilla', 1], ['Pasar por el filtro sanitario', 1], ['Caminar por el pasillo peatonal', 1], ['Sacarme anillos y reloj', 1], ['Acercarme a una máquina en marcha para mirar', 0], ['Tocar el producto', 0]],
-      w: 'En la planta se usa el EPP del área, se pasa por el filtro sanitario, se camina por los pasillos peatonales y sin accesorios. No te acerques a máquinas en marcha ni toques el producto.' },
-    { tema: 'autocuidado', emp: TODAS, tipo: 'clasifica', q: '🧩 Actividad: clasifica cada situación como acto inseguro o condición insegura.',
-      cats: ['Acto inseguro', 'Condición insegura'],
-      items: [['[[L:Meter la mano en la selladora en marcha|X:Meter la mano en la calibradora en marcha|A:Pararse en el último peldaño de la escalera|I:Subirse a una silla con ruedas para alcanzar algo]]', 0],
-        ['[[L:Suero en el piso sin señalizar|X:Agua del hidrocooler en el piso sin señalizar|A:Una escalera con un peldaño suelto|I:Un alargador cruzando el pasillo]]', 1],
-        ['Trabajar sin el EPP que corresponde', 0], ['Un extintor tapado con cajas', 1], ['Correr dentro del área de trabajo', 0],
-        ['[[L:Una protección suelta en la laminadora|X:Un pallet roto en el pasillo|A:Una rama a la altura de la cara en la hilera|I:Un enchufe quemado]]', 1]],
+    // ===== Inducción: conocimiento y prevención (sin foco en el accidente) =====
+    { tema: 'induccion', emp: ['lacteos'], tipo: 'vestir', q: '🧩 Actividad: prepara al trabajador para entrar a la planta.',
+      items: [['Cofia', 1, '🧢', { cofia: true }], ['Mascarilla', 1, '😷', { mask: true }], ['Cotona y pechera blancas', 1, '🥼', { shirt: '#FFFFFF', apron: '#FFFFFF' }],
+        ['Guantes de nitrilo amarillos', 1, '🧤', { gloves: '#FDD835' }], ['Botas blancas de seguridad', 1, '🥾', { boots: '#FAFAFA', pants: '#ECEFF1' }],
+        ['Anillo', 0, '💍', null, 'Los anillos se enganchan en las máquinas y pueden caer al queso.'], ['Reloj', 0, '⌚', null, 'El reloj está prohibido en la planta.']],
+      w: 'Para entrar a la planta: cofia, mascarilla, cotona y pechera blancas, guantes de nitrilo amarillos y botas blancas de seguridad. Sin anillos ni reloj.' },
+    { tema: 'induccion', emp: ['lacteos'], tipo: 'tarjetas', q: '🧩 Actividad: ¿así sí o así no? Desliza cada tarjeta.',
+      items: [['Caminar por el pasillo peatonal demarcado', 0, '🚶'], ['Meter la mano en una máquina en marcha para sacar un queso', 1, '🖐️'], ['Usar los fonos todo el tiempo en la zona con ruido', 0, '🎧'],
+        ['Levantar más de 25 kg sin ayuda', 1, '🏋️'], ['Tapar un extintor con gavetas', 1, '🧯'], ['Seguir el procedimiento sin saltarse pasos', 0, '📋']],
+      w: 'Así sí: pasillos peatonales, fonos en zonas con ruido y procedimientos completos. Así no: intervenir máquinas en marcha, cargar de más o tapar extintores.' },
+    { tema: 'induccion', emp: ['agroex'], tipo: 'vestir', q: '🧩 Actividad: prepara al trabajador para entrar al packing.',
+      items: [['Cofia', 1, '🧢', { cofia: true }], ['Mascarilla', 1, '😷', { mask: true }], ['Cotona verde o azul', 1, '🥼', { shirt: '#2E7D32' }], ['Zapatos de seguridad', 1, '🥾', { boots: '#37474F' }],
+        ['Pulsera', 0, '📿', null, 'Las pulseras se enganchan en cintas y rodillos.'], ['Sandalias', 0, '🩴', null, 'En el packing se usan zapatos de seguridad.']],
+      w: 'Para entrar al packing: cofia con todo el pelo adentro, mascarilla, cotona verde o azul y zapatos de seguridad. Sin pulseras ni anillos.' },
+    { tema: 'induccion', emp: ['agroex'], tipo: 'tarjetas', q: '🧩 Actividad: ¿así sí o así no? Desliza cada tarjeta.',
+      items: [['Caminar por el pasillo peatonal, lejos de las grúas', 0, '🚶'], ['Sacar fruta trabada con la cinta andando', 1, '🍒'], ['Cruzar la línea por la pasarela', 0, '🌉'],
+        ['Mover un bin lleno a mano', 1, '📦'], ['Tomar agua seguido durante el turno', 0, '💧'], ['Subirse a la cinta detenida para cruzar', 1, '🧗']],
+      w: 'Así sí: pasillos, pasarelas y agua seguido. Así no: meter la mano a la cinta andando, mover bins llenos a mano o subirse a la cinta.' },
+    { tema: 'induccion', emp: ['agricola'], tipo: 'vestir', q: '🧩 Actividad: prepara al trabajador para salir al huerto.',
+      items: [['Overol', 1, '🧥', { shirt: '#1F3A6B', pants: '#1F3A6B' }], ['Legionario con cubrenuca', 1, '👒', { hat: 'legion' }], ['Lentes con filtro UV', 1, '🕶️', { glasses: true }],
+        ['Guantes', 1, '🧤', { gloves: '#8D6E63' }], ['Calzado de seguridad', 1, '🥾', { boots: '#5D4037' }], ['Bloqueador solar', 1, '🧴', {}],
+        ['Polera sin mangas', 0, '🎽', null, 'Los brazos al sol se queman: se usa manga larga u overol.'], ['Sandalias', 0, '🩴', null, 'En el huerto se usa calzado de seguridad.']],
+      w: 'En el huerto: overol, legionario con cubrenuca, lentes con filtro UV, bloqueador, guantes y calzado de seguridad.' },
+    { tema: 'induccion', emp: ['agricola'], tipo: 'tarjetas', q: '🧩 Actividad: ¿así sí o así no? Desliza cada tarjeta.',
+      items: [['Guardar las tijeras en su funda', 0, '✂️'], ['Mover un bin lleno a mano', 1, '📦'], ['Caminar por el borde del camino, donde el tractorista me vea', 0, '🚶'],
+        ['Subirme al tractor como pasajero', 1, '🚜'], ['Ventilar la bodega 30 minutos antes de limpiarla', 0, '🐭'], ['Entrar a un cuartel recién aplicado antes del reingreso', 1, '☠️']],
+      w: 'Así sí: herramientas en su funda, caminar a la vista del tractorista y ventilar antes de limpiar. Así no: bins a mano, viajar en el tractor o entrar antes del reingreso.' },
+    { tema: 'induccion', emp: ['inversiones'], tipo: 'tarjetas', q: '🧩 Actividad: en la oficina, ¿así sí o así no? Desliza cada tarjeta.',
+      items: [['Pasillos y salidas libres', 0, '🚪'], ['Un alargador cruzando el paso', 1, '🔌'], ['Subirme a una silla con ruedas para alcanzar un archivo', 1, '🪑'],
+        ['Cerrar los cajones después de usarlos', 0, '🗄️'], ['Llevar las cajas de archivo en un carro', 0, '🛒'], ['Dejar cajas apiladas frente a la salida', 1, '📦']],
+      w: 'Así sí: pasillos libres, cajones cerrados y carro para lo pesado. Así no: cables en el paso, subirse a sillas con ruedas o tapar salidas.' },
+    { tema: 'induccion', emp: ['inversiones'], tipo: 'vestir', q: '🧩 Actividad: vas de visita a la planta de quesos. Prepárate para entrar.',
+      items: [['Cofia', 1, '🧢', { cofia: true }], ['Mascarilla', 1, '😷', { mask: true }],
+        ['Anillo', 0, '💍', null, 'En la planta no se usan anillos: se enganchan y pueden caer al producto.'], ['Reloj', 0, '⌚', null, 'El reloj se saca antes de entrar.']],
+      w: 'De visita en la planta: cofia y mascarilla, pasar por el filtro sanitario y sin accesorios. No te acerques a las máquinas ni toques el producto.' },
+    // ===== Charlas =====
+    { tema: 'autocuidado', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: ¿lo hace una persona o está en el lugar? Desliza cada tarjeta.',
+      cats: ['🙋 Acto inseguro', '🏚️ Condición insegura'], sub: ['lo hace una persona', 'está en el lugar'],
+      items: [['[[L:Meter la mano en la selladora en marcha|X:Meter la mano en la calibradora en marcha|A:Pararse en el último peldaño de la escalera|I:Subirse a una silla con ruedas para alcanzar algo]]', 0, '🖐️'],
+        ['[[L:Suero en el piso sin señalizar|X:Agua del hidrocooler en el piso sin señalizar|A:Una escalera con un peldaño suelto|I:Un alargador cruzando el pasillo]]', 1, '💧'],
+        ['Trabajar sin el EPP que corresponde', 0, '🚫'], ['Un extintor tapado con cajas', 1, '🧯'], ['Correr dentro del área de trabajo', 0, '🏃'],
+        ['[[L:Una protección suelta en la laminadora|X:Un pallet roto en el pasillo|A:Una rama a la altura de la cara en la hilera|I:Un enchufe quemado]]', 1, '⚠️']],
       w: 'Acto inseguro: lo que una persona hace o deja de hacer. Condición insegura: algo del lugar, del equipo o del material que puede causar un accidente.' },
-    { tema: 'epp', emp: ['lacteos'], tipo: 'marca', q: '🧩 Actividad: toca TODO lo que forma parte de tu EPP en la planta.',
-      items: [['Cofia', 1], ['Mascarilla', 1], ['Guantes de nitrilo amarillos', 1], ['Pechera blanca', 1], ['Botas blancas de seguridad', 1], ['Anillos o pulseras', 0], ['Gorro de lana', 0], ['Zapatillas', 0]],
-      w: 'En la planta: cotona y pechera blancas, cofia, mascarilla, guantes de nitrilo amarillos y botas blancas de seguridad. Anillos y pulseras están prohibidos.' },
-    { tema: 'epp', emp: ['agroex'], tipo: 'marca', q: '🧩 Actividad: toca TODO lo que forma parte de tu EPP en el packing.',
-      items: [['Cofia', 1], ['Mascarilla', 1], ['Cotona verde o azul', 1], ['Zapatos de seguridad', 1], ['Anillos o pulseras', 0], ['Sandalias', 0], ['Gorro de lana', 0]],
+    { tema: 'epp', emp: ['lacteos'], tipo: 'vestir', q: '🧩 Actividad: viste al trabajador con su EPP de la planta.',
+      items: [['Cofia', 1, '🧢', { cofia: true }], ['Mascarilla', 1, '😷', { mask: true }], ['Cotona y pechera blancas', 1, '🥼', { shirt: '#FFFFFF', apron: '#FFFFFF' }],
+        ['Guantes de nitrilo amarillos', 1, '🧤', { gloves: '#FDD835' }], ['Botas blancas de seguridad', 1, '🥾', { boots: '#FAFAFA', pants: '#ECEFF1' }],
+        ['Gorro de lana', 0, '🧶', null, 'El pelo va dentro de la cofia, no de un gorro.'], ['Zapatillas', 0, '👟', null, 'En la planta se usan botas blancas de seguridad.'], ['Pulsera', 0, '📿', null, 'Las pulseras están prohibidas en la planta.']],
+      w: 'En la planta: cotona y pechera blancas, cofia, mascarilla, guantes de nitrilo amarillos y botas blancas de seguridad.' },
+    { tema: 'epp', emp: ['agroex'], tipo: 'vestir', q: '🧩 Actividad: viste al trabajador con su EPP del packing.',
+      items: [['Cofia', 1, '🧢', { cofia: true }], ['Mascarilla', 1, '😷', { mask: true }], ['Cotona verde o azul', 1, '🥼', { shirt: '#1565C0' }], ['Zapatos de seguridad', 1, '🥾', { boots: '#37474F' }],
+        ['Anillo', 0, '💍', null, 'Los anillos se enganchan en cintas y rodillos.'], ['Sandalias', 0, '🩴', null, 'En el packing se usan zapatos de seguridad.'], ['Gorro de lana', 0, '🧶', null, 'El pelo va completo dentro de la cofia.']],
       w: 'En el packing: cotona verde o azul, cofia, mascarilla y zapatos de seguridad. Nada de anillos, pulseras ni collares.' },
-    { tema: 'epp', emp: ['agricola'], tipo: 'marca', q: '🧩 Actividad: toca TODO lo que debes usar para trabajar protegido en el huerto.',
-      items: [['Overol', 1], ['Legionario o jockey con cubrenuca', 1], ['Lentes con filtro UV', 1], ['Bloqueador solar', 1], ['Guantes y calzado de seguridad', 1], ['Polera sin mangas', 0], ['Sandalias', 0]],
-      w: 'En el huerto: overol, legionario o jockey con cubrenuca, lentes con filtro UV y bloqueador solar, más guantes y calzado de seguridad según la labor.' },
+    { tema: 'epp', emp: ['agricola'], tipo: 'vestir', q: '🧩 Actividad: viste al trabajador para trabajar protegido en el huerto.',
+      items: [['Overol', 1, '🧥', { shirt: '#1F3A6B', pants: '#1F3A6B' }], ['Legionario con cubrenuca', 1, '👒', { hat: 'legion' }], ['Lentes con filtro UV', 1, '🕶️', { glasses: true }],
+        ['Guantes', 1, '🧤', { gloves: '#8D6E63' }], ['Calzado de seguridad', 1, '🥾', { boots: '#5D4037' }],
+        ['Polera sin mangas', 0, '🎽', null, 'Los brazos al sol se queman: se usa overol.'], ['Sandalias', 0, '🩴', null, 'En el huerto se usa calzado de seguridad.']],
+      w: 'En el huerto: overol, legionario o jockey con cubrenuca, lentes con filtro UV y bloqueador, más guantes y calzado de seguridad según la labor.' },
     { tema: 'cargas', emp: TODAS, tipo: 'orden', q: '🧩 Actividad: ordena los pasos para levantar una carga.',
       items: ['Evalúo el peso y, si es mucho, pido ayuda o uso una ayuda mecánica', 'Me acerco a la carga y separo los pies', 'Doblo las rodillas con la espalda recta', 'La tomo firme y la levanto con las piernas, pegada al cuerpo'],
       w: 'Primero evalúas; después te acercas con los pies separados, doblas las rodillas con la espalda recta y levantas con las piernas, con la carga pegada al cuerpo.' },
@@ -385,37 +397,43 @@
     { tema: 'emergencias', emp: TODAS, tipo: 'orden', q: '🧩 Actividad: suena la alarma de evacuación. Ordena lo que haces.',
       items: ['Dejo lo que estoy haciendo, sin volver por mis cosas', 'Camino rápido, sin correr, por la vía de evacuación', 'Llego a la zona de seguridad con mi grupo', 'Aviso a mi líder que estoy bien'],
       w: 'Sales sin buscar tus cosas, caminas rápido por la vía de evacuación, llegas a la zona de seguridad y avisas a tu líder que estás bien.' },
-    { tema: 'higiene', emp: ['lacteos'], tipo: 'marca', q: '🧩 Actividad: toca TODO lo que está PROHIBIDO usar en la planta.',
-      items: [['Anillo o argolla de matrimonio', 1], ['Aros o piercings', 1], ['Reloj', 1], ['Pulsera', 1], ['Cadena o collar', 1], ['Cofia', 0], ['Mascarilla', 0], ['Botas blancas de seguridad', 0]],
-      w: 'Anillos (también la argolla), aros, relojes, pulseras y collares están prohibidos: se enganchan en las máquinas y pueden caer al queso.' },
+    { tema: 'higiene', emp: ['lacteos'], tipo: 'tarjetas', q: '🧩 Actividad: ¿se puede entrar así a la planta? Desliza cada tarjeta.',
+      items: [['Con anillo o argolla de matrimonio', 1, '💍'], ['Con la cofia cubriendo todo el pelo', 0, '🧢'], ['Con reloj', 1, '⌚'], ['Con las manos recién lavadas', 0, '🧼'],
+        ['Mascando chicle', 1, '🍬'], ['Con aros', 1, '💎'], ['Con botas blancas de seguridad', 0, '🥾']],
+      w: 'Se entra con cofia que cubre todo el pelo, manos lavadas y botas blancas. Anillos, reloj, aros y chicle no entran a la planta.' },
     { tema: 'maquinas', emp: ['lacteos'], tipo: 'orden', q: '🧩 Actividad: se trabó un queso en la máquina. Ordena los pasos antes de intervenir.',
       items: ['Detengo la máquina', 'Espero que pare del todo', 'La bloqueo con su bloqueo propio', 'Verifico que no parta'],
       w: 'Detener, esperar que pare, bloquear y verificar. Recién entonces se interviene.' },
     { tema: 'pk_lineas', emp: ['agroex'], tipo: 'orden', q: '🧩 Actividad: se trabó fruta en la cinta. Ordena lo que hace la persona autorizada.',
       items: ['Detiene la máquina', 'La bloquea con su bloqueo propio y su tarjeta', 'Verifica que no se mueve', 'Recién ahí saca la fruta trabada'],
       w: 'Nunca con la máquina andando: se detiene, se bloquea con bloqueo y tarjeta, se verifica y recién se destraba.' },
-    { tema: 'ag_aplicacion', emp: ['agricola'], tipo: 'marca', q: '🧩 Actividad: toca TODO el EPP del aplicador de agroquímicos.',
-      items: [['Traje impermeable con capucha', 1], ['Respirador con filtros adecuados', 1], ['Antiparras o protector facial', 1], ['Guantes de nitrilo', 1], ['Botas de goma', 1], ['Mascarilla de tela', 0], ['Zapatillas', 0]],
-      w: 'Traje impermeable con capucha, respirador con filtros adecuados, antiparras o protector facial, guantes de nitrilo y botas de goma con el pantalón por fuera.' },
-    { tema: 'ag_tractor', emp: ['agricola'], tipo: 'marca', q: '🧩 Actividad: vas a bajarte del tractor. Toca TODO lo que debes hacer antes.',
-      items: [['Poner el freno de mano', 1], ['Bajar el implemento al suelo', 1], ['Apagar el motor y sacar la llave', 1], ['Dejar el motor andando para volver rápido', 0], ['Saltar desde el peldaño', 0]],
+    { tema: 'ag_aplicacion', emp: ['agricola'], tipo: 'vestir', q: '🧩 Actividad: viste al aplicador de agroquímicos con todo su EPP.',
+      items: [['Traje impermeable con capucha', 1, '🦺', { shirt: '#E0E0E0', pants: '#E0E0E0' }], ['Respirador con filtros', 1, '😷', { mask: true }], ['Antiparras', 1, '🥽', { glasses: true }],
+        ['Guantes de nitrilo', 1, '🧤', { gloves: '#2E7D32' }], ['Botas de goma', 1, '🥾', { boots: '#212121' }],
+        ['Mascarilla de tela', 0, '🧣', null, 'La tela no protege de los agroquímicos: se usa respirador con filtros.'], ['Zapatillas', 0, '👟', null, 'El líquido entra: se usan botas de goma con el pantalón por fuera.']],
+      w: 'Traje impermeable con capucha, respirador con filtros adecuados, antiparras, guantes de nitrilo y botas de goma con el pantalón por fuera.' },
+    { tema: 'ag_tractor', emp: ['agricola'], tipo: 'tarjetas', q: '🧩 Actividad: vas a bajarte del tractor. ¿Así sí o así no?',
+      items: [['Poner el freno de mano', 0, '🅿️'], ['Bajar el implemento al suelo', 0, '⬇️'], ['Apagar el motor y sacar la llave', 0, '🔑'], ['Dejar el motor andando para volver rápido', 1, '💨'],
+        ['Saltar desde el peldaño', 1, '🦘'], ['Bajar de frente, con tres puntos de apoyo', 0, '🧗']],
       w: 'Freno de mano puesto, implemento abajo, motor apagado y llave fuera. Se baja de frente, con tres puntos de apoyo, sin saltar.' },
-    { tema: 'pvd', emp: TODAS, tipo: 'clasifica', q: '🧩 Actividad: tu puesto con computador. Clasifica cada situación.',
-      cats: ['Correcto', 'Incorrecto'],
-      items: [['Pantalla a la altura de los ojos', 0], ['Pies colgando, sin reposapiés', 1], ['Espalda apoyada en el respaldo', 0], ['Muñecas dobladas hacia arriba al teclear', 1], ['Pantalla de frente a la ventana, con reflejos', 1], ['Pausa activa una vez cada hora', 0]],
+    { tema: 'pvd', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: tu puesto con computador. ¿Así sí o así no?',
+      items: [['Pantalla a la altura de los ojos', 0, '🖥️'], ['Pies colgando, sin reposapiés', 1, '🦶'], ['Espalda apoyada en el respaldo', 0, '🪑'], ['Muñecas dobladas hacia arriba al teclear', 1, '⌨️'],
+        ['Pantalla de frente a la ventana, con reflejos', 1, '☀️'], ['Pausa activa una vez cada hora', 0, '🙆']],
       w: 'Pantalla a la altura de los ojos y de lado a la ventana, espalda apoyada, pies planos en el piso, muñecas rectas y pausas cada hora.' },
-    { tema: 'calor', emp: TODAS, tipo: 'clasifica', q: '🧩 Actividad: un compañero tiene síntomas por calor. Clasifica cada acción.',
-      cats: ['Correcto', 'Incorrecto'],
-      items: [['Llevarlo a la sombra o a un lugar fresco', 0], ['Que termine su tarea antes de descansar', 1], ['Mojar su piel y abanicarlo', 0], ['Darle agua aunque esté desmayado', 1], ['Avisar a la jefatura', 0], ['Dejarlo solo para que descanse', 1]],
+    { tema: 'calor', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: un compañero tiene síntomas por calor. ¿Así sí o así no?',
+      items: [['Llevarlo a la sombra o a un lugar fresco', 0, '🌳'], ['Que termine su tarea antes de descansar', 1, '⏱️'], ['Mojar su piel y abanicarlo', 0, '💦'], ['Darle agua aunque esté desmayado', 1, '🥤'],
+        ['Avisar a la jefatura', 0, '📣'], ['Dejarlo solo para que descanse', 1, '🚶']],
       w: 'A la sombra, sin seguir trabajando, piel mojada y aire. Agua a sorbos solo si está consciente. No se deja solo y se avisa a la jefatura.' },
-    { tema: 'uv', emp: TODAS, tipo: 'marca', q: '🧩 Actividad: toca TODO lo que te protege del sol.',
-      items: [['Legionario o jockey con cubrenuca', 1], ['Ropa de manga larga', 1], ['Bloqueador cada 2 horas', 1], ['Pausas a la sombra', 1], ['Sacarse la polera por el calor', 0], ['Bloqueador solo una vez en la mañana', 0]],
-      w: 'Legionario o jockey con cubrenuca, manga larga, bloqueador repetido cada 2 horas y pausas a la sombra, sobre todo de 11 a 16 horas.' }
+    { tema: 'uv', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: protección contra el sol. ¿Así sí o así no?',
+      items: [['Legionario o jockey con cubrenuca', 0, '👒'], ['Ropa de manga larga', 0, '👕'], ['Bloqueador cada 2 horas', 0, '🧴'], ['Sacarse la polera por el calor', 1, '🎽'],
+        ['Bloqueador solo una vez en la mañana', 1, '🌅'], ['Si está nublado, no hay que protegerse', 1, '☁️'], ['Pausas a la sombra', 0, '🌳']],
+      w: 'Legionario con cubrenuca, manga larga, bloqueador repetido cada 2 horas y pausas a la sombra, también en días nublados.' }
   ];
   window.SI_ACT = SI_ACT;
   const actsDe = (tema, e) => SI_ACT.filter(a => a.tema === tema && a.emp.indexOf(e) >= 0).map(a => {
     const r = s => window.siTxt(s, e);
-    const act = { tipo: a.tipo, cats: a.cats, items: a.tipo === 'orden' ? a.items.map(r) : a.items.map(([t, v]) => [r(t), v]) };
+    const act = { tipo: a.tipo, cats: a.cats || ['✅ Así sí', '❌ Así no'], sub: a.sub || null, binario: !a.cats,
+      items: a.tipo === 'orden' ? a.items.map(r) : a.items.map(x => [r(x[0]), x[1], x[2] || '', x[3] || null, x[4] ? r(x[4]) : '']) };
     return { act, q: r(a.q), w: r(a.w), o: [''], a: 0, s: '' };
   });
   window.__siActsDe = actsDe;
@@ -425,13 +443,22 @@
     const A = q.act, B = document.getElementById('qBody'); if (!B) return;
     let corr = '';
     if (A.tipo === 'orden') corr = A.items.map((t, i) => (i + 1) + ') ' + t).join(' · ');
-    else if (A.tipo === 'clasifica') corr = A.items.map(([t, c]) => t + ': ' + A.cats[c]).join(' · ');
+    else if (A.tipo === 'clasifica' || A.tipo === 'tarjetas') corr = A.items.map(([t, c]) => t + ': ' + A.cats[c].replace(/^\S+\s/, '')).join(' · ');
     else corr = A.items.filter(x => x[1]).map(x => x[0]).join(' · ');
-    const tit = { orden: 'Toca los pasos en el orden correcto (1, 2, 3...).', clasifica: 'Elige una opción para cada situación.', marca: 'Toca todas las que correspondan y después toca "Listo".' }[A.tipo];
+    const tit = { orden: 'Toca los pasos en el orden correcto (1, 2, 3...).', clasifica: 'Elige una opción para cada situación.', marca: 'Toca todas las que correspondan y después toca "Listo".',
+      tarjetas: 'Desliza la tarjeta hacia el lado que corresponde, o toca el botón.', vestir: 'Toca o arrastra al trabajador lo que debe usar. ¡Ojo, hay cosas que no van!' }[A.tipo];
     let h = `<div class="siAct"><div class="acH">${tit}</div>`;
     if (A.tipo === 'orden') {
       let ord = mezclarA(A.items.map((t, i) => i)); if (ord.every((v, k) => v === k)) ord = ord.reverse();
       h += `<div class="acL">${ord.map(i => `<button class="acI" data-i="${i}"><span class="acN"></span><span>${escA(A.items[i])}</span></button>`).join('')}</div><button class="acR">↺ Borrar y empezar de nuevo</button>`;
+    } else if (A.tipo === 'tarjetas') {
+      const cl = A.binario ? ['tjSi', 'tjNo'] : ['tjA', 'tjB'];
+      h += `<div class="tjW"><div class="tjP" id="tjP"></div><div class="tjStage" id="tjStage"></div>
+        <div class="tjBt"><button class="tjK ${cl[1]}" data-k="1">${escA(A.cats[1])}${A.sub ? `<small>${escA(A.sub[1])}</small>` : ''}</button><button class="tjK ${cl[0]}" data-k="0">${escA(A.cats[0])}${A.sub ? `<small>${escA(A.sub[0])}</small>` : ''}</button></div></div>`;
+    } else if (A.tipo === 'vestir') {
+      h += `<div class="vsW"><div class="vsFig" id="vsFig"></div><div class="vsMsg" id="vsMsg">👆 Toca o arrastra cada cosa al trabajador</div>
+        <div class="vsIt">${mezclarA(A.items.map((x, i) => i)).map(i => `<button class="vsC" data-i="${i}"><span class="vsE">${A.items[i][2]}</span><span>${escA(A.items[i][0])}</span></button>`).join('')}</div>
+        <button class="acOk" id="vsOk">Listo, ya está preparado</button></div>`;
     } else if (A.tipo === 'clasifica') {
       h += `<div class="acL">${mezclarA(A.items.map((x, i) => i)).map(i => `<div class="acC" data-i="${i}"><div class="acCt">${escA(A.items[i][0])}</div><div class="acCb">${A.cats.map((c, k) => `<button class="acK" data-k="${k}">${escA(c)}</button>`).join('')}</div></div>`).join('')}</div>`;
     } else {
@@ -448,6 +475,67 @@
       B.querySelectorAll('.acI').forEach(b => b.onclick = () => { if (bloqueado()) return; const i = +b.dataset.i; if (sel.indexOf(i) >= 0) return; sel.push(i); pintar(); try { SFX.play('next'); } catch (e) {}
         if (sel.length === A.items.length) enviar(sel.every((v, k) => v === k), sel.map((i, k) => (k + 1) + ') ' + A.items[i]).join(' · ')); });
       B.querySelector('.acR').onclick = () => { if (bloqueado()) return; sel = []; pintar(); retirar(); };
+    } else if (A.tipo === 'tarjetas') {
+      const ord = mezclarA(A.items.map((x, i) => i)), resp = []; let pos = 0, ocupado = false;
+      const stage = B.querySelector('#tjStage'), prog = B.querySelector('#tjP');
+      const pintarP = () => { prog.innerHTML = ord.map((x, k) => `<span class="${k < pos ? (resp[k].ok ? 'ok' : 'mal') : k === pos ? 'act' : ''}"></span>`).join('') + `<b>${Math.min(pos + 1, ord.length)} de ${ord.length}</b>`; };
+      const carta = () => {
+        pintarP();
+        if (pos >= ord.length) {
+          const bien = resp.filter(x => x.ok).length;
+          stage.innerHTML = `<div class="tjFin"><div class="tjE">${bien === ord.length ? '🏆' : '💪'}</div><div class="tjT">${bien === ord.length ? '¡Perfecto!' : '¡Terminaste!'}</div><div class="tjS">Acertaste ${bien} de ${ord.length}</div></div>`;
+          B.querySelectorAll('.tjK').forEach(b => b.disabled = true);
+          try { SFX.play(bien === ord.length ? 'win' : 'next'); } catch (e) {}
+          enviar(bien === ord.length, resp.map(x => A.items[x.i][0] + ': ' + A.cats[x.k].replace(/^\S+\s/, '')).join(' · ')); return;
+        }
+        const it = A.items[ord[pos]];
+        stage.innerHTML = `<div class="tjCard" id="tjCard"><div class="tjL tjLi">${escA(A.cats[1])}</div><div class="tjL tjLd">${escA(A.cats[0])}</div><div class="tjE">${it[2] || '❓'}</div><div class="tjT">${escA(it[0])}</div><div class="tjH">⬅ desliza ➡</div></div><div class="tjFb" id="tjFb"></div>`;
+        const c = stage.querySelector('#tjCard'); let x0 = null, dx = 0;
+        c.onpointerdown = ev => { if (bloqueado() || ocupado) return; x0 = ev.clientX; dx = 0; c.setPointerCapture(ev.pointerId); c.style.transition = 'none'; };
+        c.onpointermove = ev => { if (x0 === null) return; dx = ev.clientX - x0; c.style.transform = `translateX(${dx}px) rotate(${dx / 14}deg)`;
+          c.querySelector('.tjLd').style.opacity = Math.max(0, Math.min(1, dx / 90)); c.querySelector('.tjLi').style.opacity = Math.max(0, Math.min(1, -dx / 90)); };
+        c.onpointerup = c.onpointercancel = () => { if (x0 === null) return; x0 = null; c.style.transition = '';
+          if (dx > 80) decidir(0); else if (dx < -80) decidir(1); else { c.style.transform = ''; c.querySelectorAll('.tjL').forEach(l => l.style.opacity = 0); } };
+      };
+      const decidir = k => {
+        if (bloqueado() || ocupado || pos >= ord.length) return; ocupado = true;
+        const it = A.items[ord[pos]], ok = it[1] === k; resp.push({ i: ord[pos], k, ok });
+        const c = stage.querySelector('#tjCard'), fb = stage.querySelector('#tjFb');
+        if (c) { c.style.transition = 'transform .32s ease, opacity .32s ease'; c.style.transform = `translateX(${k === 0 ? 420 : -420}px) rotate(${k === 0 ? 24 : -24}deg)`; c.style.opacity = '0'; }
+        fb.className = 'tjFb on ' + (ok ? 'ok' : 'mal'); fb.innerHTML = ok ? '✔ ¡Bien!' : `✘ Era: ${escA(A.cats[it[1]])}`;
+        try { SFX.play(ok ? 'ok' : 'bad'); } catch (e) {}
+        setTimeout(() => { pos++; ocupado = false; carta(); }, ok ? 750 : 1500);
+      };
+      B.querySelectorAll('.tjK').forEach(b => b.onclick = () => decidir(+b.dataset.k));
+      carta();
+    } else if (A.tipo === 'vestir') {
+      const fig = B.querySelector('#vsFig'), msg = B.querySelector('#vsMsg'), puestos = [], malos = [];
+      let ropa = { helmet: false, cofia: false, mask: false, shirt: '#90A4AE', pants: '#546E7A', boots: false, apron: false, gloves: false, glasses: false, hat: '', s: 2.2 };
+      const nOk = A.items.filter(x => x[1]).length;
+      const dibujar = pop => { let g = ''; try { g = W(100, 206, Object.assign({}, ropa, { face: puestos.length === nOk ? 'ok' : 'ok' })); } catch (e) {}
+        fig.innerHTML = `<svg viewBox="0 0 200 215" xmlns="http://www.w3.org/2000/svg"><ellipse cx="100" cy="208" rx="70" ry="6" fill="#000" opacity=".12"/><g class="${pop ? 'vsPop' : ''}">${g}</g></svg><div class="vsCnt">${puestos.length} de ${nOk}</div>`; };
+      const fin = () => { const ok = !malos.length && puestos.length === nOk;
+        B.querySelectorAll('.vsC').forEach(b => b.disabled = true); B.querySelector('#vsOk').disabled = true;
+        enviar(ok, 'Puso: ' + (puestos.map(i => A.items[i][0]).join(', ') || 'nada') + (malos.length ? ' · También eligió: ' + malos.map(i => A.items[i][0]).join(', ') : '')); };
+      const poner = b => {
+        if (bloqueado() || b.disabled) return; const i = +b.dataset.i, it = A.items[i];
+        if (it[1]) { Object.assign(ropa, it[3] || {}); puestos.push(i); b.classList.add('ok'); b.disabled = true; dibujar(true);
+          msg.className = 'vsMsg ok'; msg.textContent = '✔ ¡Bien! ' + it[0] + (puestos.length < nOk ? '. ¿Qué más le falta?' : ''); try { SFX.play('ok'); } catch (e) {}
+          if (puestos.length === nOk) { msg.textContent = malos.length ? '✔ Quedó protegido, pero ojo con lo que no va.' : '🎉 ¡Listo! Quedó bien protegido.'; setTimeout(fin, 500); } }
+        else { malos.push(i); b.classList.add('mal'); b.disabled = true; msg.className = 'vsMsg mal'; msg.textContent = '✘ Eso no va. ' + (it[4] || ''); try { SFX.play('bad'); } catch (e) {} }
+      };
+      B.querySelectorAll('.vsC').forEach(b => {
+        let x0 = null, y0 = 0, ghost = null;
+        b.onpointerdown = ev => { if (bloqueado() || b.disabled) return; x0 = ev.clientX; y0 = ev.clientY; b.setPointerCapture(ev.pointerId); };
+        b.onpointermove = ev => { if (x0 === null) return; if (!ghost && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 10) { ghost = document.createElement('div'); ghost.className = 'vsG'; ghost.textContent = b.querySelector('.vsE').textContent; document.body.appendChild(ghost); }
+          if (ghost) { ghost.style.left = ev.clientX + 'px'; ghost.style.top = ev.clientY + 'px'; const r = fig.getBoundingClientRect(); fig.classList.toggle('sobre', ev.clientX > r.left && ev.clientX < r.right && ev.clientY > r.top && ev.clientY < r.bottom); } };
+        b.onpointerup = ev => { if (x0 === null) return; x0 = null; fig.classList.remove('sobre');
+          if (ghost) { ghost.remove(); ghost = null; const r = fig.getBoundingClientRect(); if (ev.clientX > r.left && ev.clientX < r.right && ev.clientY > r.top && ev.clientY < r.bottom) poner(b); } else poner(b); };
+        b.onpointercancel = () => { x0 = null; if (ghost) { ghost.remove(); ghost = null; } fig.classList.remove('sobre'); };
+        b.onclick = ev => ev.preventDefault();
+      });
+      B.querySelector('#vsOk').onclick = () => { if (bloqueado()) return; fin(); };
+      dibujar(false);
     } else if (A.tipo === 'clasifica') {
       const resp = {};
       B.querySelectorAll('.acC').forEach(c => c.querySelectorAll('.acK').forEach(k => k.onclick = () => { if (bloqueado()) return;
@@ -478,6 +566,27 @@
 .siAct .acOk{margin-top:12px;width:100%;background:#F2B33D;color:#0B2457;border:none;border-radius:14px;padding:14px;font:inherit;font-size:17px;font-weight:bold;cursor:pointer}.siAct .acOk:disabled{opacity:.45;cursor:default}
 .siAct button:disabled{cursor:default}`;
   document.head.appendChild(cssA);
+  const cssT = document.createElement('style');
+  cssT.textContent = `.tjW{display:flex;flex-direction:column;gap:12px}.tjP{display:flex;align-items:center;gap:6px;justify-content:center}.tjP span{width:12px;height:12px;border-radius:50%;background:#ffffff33}
+.tjP span.act{background:#F2B33D;transform:scale(1.25)}.tjP span.ok{background:#43A047}.tjP span.mal{background:#E53935}.tjP b{color:#BBD0F2;font-size:13px;margin-left:6px}
+.tjStage{position:relative;height:250px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.tjCard{position:relative;width:88%;max-width:330px;height:225px;background:#fff;color:#1F2937;border-radius:22px;box-shadow:0 10px 26px rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;touch-action:none;user-select:none;cursor:grab;transition:transform .25s}
+.tjCard .tjE{font-size:62px;line-height:1}.tjCard .tjT{font-size:18px;font-weight:bold;margin-top:12px;line-height:1.25}.tjCard .tjH{position:absolute;bottom:10px;font-size:12px;color:#9AA5B4;letter-spacing:1px}
+.tjL{position:absolute;top:14px;padding:4px 10px;border-radius:8px;font-weight:bold;font-size:14px;opacity:0;border:3px solid}.tjLd{left:14px;color:#2E7D32;border-color:#2E7D32;transform:rotate(-12deg)}.tjLi{right:14px;color:#C62828;border-color:#C62828;transform:rotate(12deg)}
+.tjFb{position:absolute;bottom:4px;left:50%;transform:translateX(-50%) scale(.8);opacity:0;padding:8px 16px;border-radius:20px;font-weight:bold;font-size:16px;transition:all .2s;white-space:nowrap}.tjFb.on{opacity:1;transform:translateX(-50%) scale(1)}
+.tjFb.ok{background:#43A047;color:#fff}.tjFb.mal{background:#E53935;color:#fff}
+.tjFin{background:#fff;color:#1F2937;border-radius:22px;padding:26px 20px;text-align:center;width:88%;max-width:330px;box-shadow:0 10px 26px rgba(0,0,0,.35)}.tjFin .tjE{font-size:60px}.tjFin .tjT{font-size:22px;font-weight:800;color:#12357F;margin-top:6px}.tjFin .tjS{font-size:16px;margin-top:4px}
+.tjBt{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tjK{border:none;border-radius:16px;padding:14px 8px;font:inherit;font-size:17px;font-weight:bold;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.tjK small{font-size:12px;font-weight:normal;opacity:.9}.tjK:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.25)}.tjK:disabled{opacity:.45}
+.tjSi{background:#2E7D32}.tjNo{background:#C62828}.tjA{background:#EF6C00}.tjB{background:#1565C0}
+.vsW{display:flex;flex-direction:column;gap:10px}.vsFig{position:relative;background:radial-gradient(circle at 50% 40%,#ffffff 0,#E8EEF7 70%);border:3px dashed #ffffff55;border-radius:20px;height:240px;display:flex;justify-content:center;transition:border-color .2s,background .2s}
+.vsFig.sobre{border-color:#F2B33D;background:radial-gradient(circle at 50% 40%,#FFF8E1 0,#FFE9A8 70%)}.vsFig svg{height:100%;width:auto}.vsCnt{position:absolute;top:8px;right:10px;background:#12357F;color:#fff;font-weight:bold;font-size:13px;border-radius:12px;padding:3px 10px}
+.vsPop{animation:vsPop .45s ease}@keyframes vsPop{0%{transform:scale(1)}40%{transform:scale(1.05)}100%{transform:scale(1)}}.vsPop{transform-origin:100px 200px}
+.vsMsg{min-height:44px;background:#ffffff14;color:#fff;border-radius:12px;padding:10px 12px;font-size:15px;text-align:center;line-height:1.3}.vsMsg.ok{background:#E8F5E9;color:#1B5E20;font-weight:bold}.vsMsg.mal{background:#FFEBEE;color:#B71C1C;font-weight:bold}
+.vsIt{display:grid;grid-template-columns:1fr 1fr;gap:8px}.vsC{display:flex;align-items:center;gap:8px;background:var(--dark2);color:#fff;border:2px solid var(--line);border-radius:14px;padding:10px;font:inherit;font-size:14px;text-align:left;line-height:1.2;cursor:grab;touch-action:none;user-select:none}
+.vsC .vsE{font-size:28px;flex:none}.vsC.ok{background:#E8F5E9;color:#1B5E20;border-color:#43A047}.vsC.mal{background:#FFEBEE;color:#B71C1C;border-color:#E53935;text-decoration:line-through}
+.vsG{position:fixed;z-index:9999;font-size:46px;pointer-events:none;transform:translate(-50%,-60%);filter:drop-shadow(0 4px 6px rgba(0,0,0,.4))}`;
+  document.head.appendChild(cssT);
 
   // ---------- 9d) Aviso antes de la evaluación: no se entra "en seco" a la prueba
   if (typeof startQuiz === 'function' && !startQuiz.__siAviso) {
