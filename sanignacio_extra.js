@@ -327,63 +327,94 @@
   // ---------- 9c) Actividades dentro de algunas pruebas (no en todas): ordenar pasos, clasificar y marcar lo correcto.
   //      Cada actividad cuenta como una pregunta más de la prueba (se registra en la prueba respondida en PDF).
   const TODAS = ORDEN_EMP;
+  // Íconos propios (planos, mismo estilo del portal) para la actividad "vestir al trabajador"
+  const OLi = '#22303A';
+  const ICO = {
+    cofia: `<path d="M8,30 Q6,12 24,11 Q42,12 40,30 Z" fill="#fff" stroke="${OLi}" stroke-width="2"/><path d="M7,29 H41" stroke="${OLi}" stroke-width="2"/><path d="M8,29 q4,5 8,0 q4,5 8,0 q4,5 8,0 q4,5 8,0" fill="none" stroke="#B0BEC5" stroke-width="2"/><circle cx="17" cy="20" r="1.3" fill="#B0BEC5"/><circle cx="24" cy="17" r="1.3" fill="#B0BEC5"/><circle cx="31" cy="20" r="1.3" fill="#B0BEC5"/>`,
+    mascarilla: `<path d="M10,18 h28 v12 q-14,9 -28,0 z" fill="#fff" stroke="${OLi}" stroke-width="2"/><path d="M12,22 h24 M12,26 h24" stroke="#90A4AE" stroke-width="1.6"/><path d="M10,19 q-7,2 -5,9 q2,3 5,2 M38,19 q7,2 5,9 q-2,3 -5,2" fill="none" stroke="${OLi}" stroke-width="1.8"/>`,
+    mascarilla_tela: `<path d="M10,18 h28 v12 q-14,9 -28,0 z" fill="#E57373" stroke="${OLi}" stroke-width="2"/><circle cx="16" cy="23" r="1.6" fill="#fff"/><circle cx="24" cy="25" r="1.6" fill="#fff"/><circle cx="32" cy="23" r="1.6" fill="#fff"/><circle cx="20" cy="29" r="1.4" fill="#fff"/><circle cx="28" cy="29" r="1.4" fill="#fff"/><path d="M10,19 q-7,2 -5,9 q2,3 5,2 M38,19 q7,2 5,9 q-2,3 -5,2" fill="none" stroke="${OLi}" stroke-width="1.8"/>`,
+    respirador: `<path d="M14,16 q10,-6 20,0 l2,12 q-12,10 -24,0 z" fill="#ECEFF1" stroke="${OLi}" stroke-width="2"/><circle cx="12" cy="28" r="6" fill="#E53935" stroke="${OLi}" stroke-width="2"/><circle cx="36" cy="28" r="6" fill="#E53935" stroke="${OLi}" stroke-width="2"/><circle cx="12" cy="28" r="2.2" fill="#B71C1C"/><circle cx="36" cy="28" r="2.2" fill="#B71C1C"/><rect x="21" y="27" width="6" height="6" rx="1.5" fill="#90A4AE" stroke="${OLi}" stroke-width="1.4"/>`,
+    cotona: c => `<path d="M16,8 l-8,6 l-4,26 h8 l1,-14 v20 h22 v-20 l1,14 h8 l-4,-26 l-8,-6 l-8,6 z" fill="${c}" stroke="${OLi}" stroke-width="2" stroke-linejoin="round"/><path d="M24,14 v26" stroke="${OLi}" stroke-width="1.4" opacity=".5"/><circle cx="24" cy="20" r="1.2" fill="${OLi}"/><circle cx="24" cy="27" r="1.2" fill="${OLi}"/><circle cx="24" cy="34" r="1.2" fill="${OLi}"/><rect x="28" y="22" width="5" height="4" rx="1" fill="none" stroke="${OLi}" stroke-width="1.2"/>`,
+    pechera: `<path d="M16,8 l-8,6 l-4,26 h8 l1,-14 v20 h22 v-20 l1,14 h8 l-4,-26 l-8,-6 l-8,6 z" fill="#ECEFF1" stroke="${OLi}" stroke-width="2" stroke-linejoin="round"/><path d="M17,12 h14 v6 q4,1 4,6 v20 h-22 v-20 q0,-5 4,-6 z" fill="#fff" stroke="${OLi}" stroke-width="2" stroke-linejoin="round"/><path d="M17,12 q7,-6 14,0" fill="none" stroke="${OLi}" stroke-width="1.6"/>`,
+    overol: `<path d="M15,6 l-7,6 l-3,16 h6 l2,-9 v25 h9 l2,-14 l2,14 h9 v-25 l2,9 h6 l-3,-16 l-7,-6 l-9,5 z" fill="#1F3A6B" stroke="${OLi}" stroke-width="2" stroke-linejoin="round"/><path d="M24,11 v18" stroke="#90CAF9" stroke-width="1.6"/><rect x="16" y="20" width="5" height="4" fill="none" stroke="#90CAF9" stroke-width="1.2"/><path d="M13,44 h9 M26,44 h9" stroke="${OLi}" stroke-width="2"/>`,
+    traje: `<path d="M24,4 q-8,0 -9,8 l-7,4 l-3,14 h6 l2,-8 v22 h9 l2,-12 l2,12 h9 v-22 l2,8 h6 l-3,-14 l-7,-4 q-1,-8 -9,-8 z" fill="#FBC02D" stroke="${OLi}" stroke-width="2" stroke-linejoin="round"/><ellipse cx="24" cy="12" rx="5" ry="4.5" fill="#F5D0B0" stroke="${OLi}" stroke-width="1.4"/><path d="M24,17 v14" stroke="${OLi}" stroke-width="1.4" opacity=".5"/>`,
+    guantes: c => `<path d="M14,40 v-12 l-5,-8 q-1,-3 2,-4 q2,0 3,2 l3,4 v-14 q0,-3 3,-3 q3,0 3,3 v-2 q0,-3 3,-3 q3,0 3,3 v2 q0,-3 3,-3 q3,0 3,3 v4 q0,-3 3,-3 q3,0 3,3 v16 q0,5 -4,8 v3 z" fill="${c}" stroke="${OLi}" stroke-width="2" stroke-linejoin="round"/><path d="M14,36 h20" stroke="${OLi}" stroke-width="1.6" opacity=".6"/>`,
+    botas: c => `<path d="M14,6 h13 v24 l11,6 q3,2 3,5 v3 h-27 z" fill="${c}" stroke="${OLi}" stroke-width="2" stroke-linejoin="round"/><path d="M14,40 h27" stroke="${OLi}" stroke-width="3"/><path d="M14,10 h13" stroke="${OLi}" stroke-width="1.4" opacity=".5"/>`,
+    zapatos: `<path d="M7,22 h16 l4,6 l12,3 q4,1 4,5 v4 h-36 z" fill="#37474F" stroke="${OLi}" stroke-width="2" stroke-linejoin="round"/><path d="M30,31 q8,1 9,5 v4 h-9 z" fill="#FBC02D" stroke="${OLi}" stroke-width="1.6"/><path d="M7,40 h36" stroke="#111" stroke-width="3"/><path d="M13,26 l6,0 M14,30 l7,0" stroke="#90A4AE" stroke-width="1.4"/>`,
+    legionario: `<path d="M10,26 Q9,8 24,8 Q39,8 38,26 Z" fill="#F1E3C2" stroke="${OLi}" stroke-width="2"/><path d="M37,24 q8,1 9,6 l-10,0 z" fill="#F1E3C2" stroke="${OLi}" stroke-width="1.8"/><path d="M11,24 q-3,9 0,16 l7,-2 q-2,-7 1,-14 z" fill="#E9D8A6" stroke="${OLi}" stroke-width="1.8"/><path d="M10,25 h28" stroke="#C9A96E" stroke-width="3"/>`,
+    lentes: `<rect x="5" y="18" width="16" height="11" rx="4" fill="#263238" stroke="${OLi}" stroke-width="2"/><rect x="27" y="18" width="16" height="11" rx="4" fill="#263238" stroke="${OLi}" stroke-width="2"/><path d="M21,22 h6 M5,21 l-3,-3 M43,21 l3,-3" stroke="${OLi}" stroke-width="2"/><path d="M8,21 l5,0 M30,21 l5,0" stroke="#90CAF9" stroke-width="1.6"/>`,
+    antiparras: `<path d="M5,20 q19,-8 38,0 v10 q-9,6 -16,0 h-6 q-7,6 -16,0 z" fill="#B3E5FC" fill-opacity=".85" stroke="${OLi}" stroke-width="2"/><path d="M5,22 l-3,1 M43,22 l3,1" stroke="#455A64" stroke-width="3"/><path d="M10,22 l6,-2" stroke="#fff" stroke-width="1.8"/>`,
+    bloqueador: `<rect x="15" y="12" width="18" height="30" rx="4" fill="#FB8C00" stroke="${OLi}" stroke-width="2"/><rect x="19" y="5" width="10" height="8" rx="2" fill="#fff" stroke="${OLi}" stroke-width="2"/><text x="24" y="28" font-size="8" font-weight="bold" text-anchor="middle" fill="#fff" font-family="Arial">FPS</text><text x="24" y="37" font-size="8" font-weight="bold" text-anchor="middle" fill="#fff" font-family="Arial">50+</text>`,
+    anillo: `<circle cx="24" cy="29" r="11" fill="none" stroke="#FBC02D" stroke-width="5"/><circle cx="24" cy="29" r="11" fill="none" stroke="${OLi}" stroke-width="1" opacity=".4"/><path d="M18,14 l6,-7 l6,7 l-6,6 z" fill="#81D4FA" stroke="${OLi}" stroke-width="1.6"/>`,
+    reloj: `<rect x="18" y="4" width="12" height="9" rx="2" fill="#5D4037"/><rect x="18" y="35" width="12" height="9" rx="2" fill="#5D4037"/><circle cx="24" cy="24" r="12" fill="#fff" stroke="${OLi}" stroke-width="2.4"/><path d="M24,24 v-7 M24,24 l5,3" stroke="${OLi}" stroke-width="2" stroke-linecap="round"/>`,
+    pulsera: `<ellipse cx="24" cy="26" rx="15" ry="9" fill="none" stroke="#AB47BC" stroke-width="4"/>${[0, 1, 2, 3, 4, 5, 6, 7].map(i => { const a = i / 8 * 6.283; return `<circle cx="${(24 + 15 * Math.cos(a)).toFixed(1)}" cy="${(26 + 9 * Math.sin(a)).toFixed(1)}" r="3" fill="#CE93D8" stroke="${OLi}" stroke-width="1"/>`; }).join('')}`,
+    sandalias: `<path d="M10,8 q8,-3 12,4 l3,28 q-1,5 -8,5 q-8,0 -9,-6 z" fill="#4FC3F7" stroke="${OLi}" stroke-width="2"/><path d="M11,18 q6,6 12,0" fill="none" stroke="#0277BD" stroke-width="3"/><path d="M27,12 q8,-3 12,4 l2,24 q-1,5 -7,5 q-7,0 -8,-6 z" fill="#4FC3F7" stroke="${OLi}" stroke-width="2"/><path d="M28,21 q6,6 11,0" fill="none" stroke="#0277BD" stroke-width="3"/>`,
+    zapatillas: `<path d="M5,24 q2,-4 8,-4 l6,2 q6,4 12,5 l9,3 q4,2 4,6 v4 h-39 z" fill="#E3F2FD" stroke="${OLi}" stroke-width="2" stroke-linejoin="round"/><path d="M5,40 h39" stroke="#1565C0" stroke-width="3"/><path d="M14,26 l6,2 M16,30 l6,2" stroke="#1565C0" stroke-width="2"/><path d="M27,29 q6,2 14,6" stroke="#1565C0" stroke-width="2" fill="none"/>`,
+    gorro_lana: `<path d="M9,32 Q8,12 24,11 Q40,12 39,32 Z" fill="#E91E63" stroke="${OLi}" stroke-width="2"/><rect x="7" y="30" width="34" height="8" rx="3" fill="#F48FB1" stroke="${OLi}" stroke-width="2"/><circle cx="24" cy="9" r="5" fill="#F8BBD0" stroke="${OLi}" stroke-width="1.6"/><path d="M14,20 v10 M20,16 v14 M28,16 v14 M34,20 v10" stroke="#C2185B" stroke-width="1.6"/>`,
+    polera: `<path d="M15,6 q9,6 18,0 l3,3 q-2,6 3,9 v24 h-30 v-24 q5,-3 3,-9 z" fill="#FFB300" stroke="${OLi}" stroke-width="2" stroke-linejoin="round"/><path d="M18,10 q6,4 12,0" fill="none" stroke="${OLi}" stroke-width="1.4"/><path d="M12,30 h24" stroke="#fff" stroke-width="3"/>`
+  };
+  const icoSvg = k => { let v = ICO[k]; if (!v) { const m = String(k).match(/^(\w+)#(\w{6})$/); if (m && typeof ICO[m[1]] === 'function') v = ICO[m[1]]('#' + m[2]); }
+    if (typeof v === 'function') v = v('#90A4AE'); return v ? `<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">${v}</svg>` : ''; };
+  window.SI_ICO = icoSvg;
   const SI_ACT = [
     // ===== Inducción: conocimiento y prevención (sin foco en el accidente) =====
     { tema: 'induccion', emp: ['lacteos'], tipo: 'vestir', q: '🧩 Actividad: prepara al trabajador para entrar a la planta.',
-      items: [['Cofia', 1, '🧢', { cofia: true }], ['Mascarilla', 1, '😷', { mask: true }], ['Cotona y pechera blancas', 1, '🥼', { shirt: '#FFFFFF', apron: '#FFFFFF' }],
-        ['Guantes de nitrilo amarillos', 1, '🧤', { gloves: '#FDD835' }], ['Botas blancas de seguridad', 1, '🥾', { boots: '#FAFAFA', pants: '#ECEFF1' }],
-        ['Anillo', 0, '💍', null, 'Los anillos se enganchan en las máquinas y pueden caer al queso.'], ['Reloj', 0, '⌚', null, 'El reloj está prohibido en la planta.']],
+      items: [['Cofia', 1, 'cofia', { cofia: true }], ['Mascarilla', 1, 'mascarilla', { mask: true }], ['Cotona y pechera blancas', 1, 'pechera', { shirt: '#FFFFFF', apron: '#FFFFFF' }],
+        ['Guantes de nitrilo amarillos', 1, 'guantes#FDD835', { gloves: '#FDD835' }], ['Botas blancas de seguridad', 1, 'botas#FAFAFA', { boots: '#FAFAFA', pants: '#ECEFF1' }],
+        ['Anillo', 0, 'anillo', null, 'Los anillos se enganchan en las máquinas y pueden caer al queso.'], ['Reloj', 0, 'reloj', null, 'El reloj está prohibido en la planta.']],
       w: 'Para entrar a la planta: cofia, mascarilla, cotona y pechera blancas, guantes de nitrilo amarillos y botas blancas de seguridad. Sin anillos ni reloj.' },
     { tema: 'induccion', emp: ['lacteos'], tipo: 'tarjetas', q: '🧩 Actividad: ¿así sí o así no? Desliza cada tarjeta.',
-      items: [['Caminar por el pasillo peatonal demarcado', 0, '🚶'], ['Meter la mano en una máquina en marcha para sacar un queso', 1, '🖐️'], ['Usar los fonos todo el tiempo en la zona con ruido', 0, '🎧'],
-        ['Levantar más de 25 kg sin ayuda', 1, '🏋️'], ['Tapar un extintor con gavetas', 1, '🧯'], ['Seguir el procedimiento sin saltarse pasos', 0, '📋']],
+      items: [['Caminar por el pasillo peatonal demarcado', 0, 'si_t1_o_vias:R'], ['Meter la mano en una máquina en marcha para sacar un queso', 1, 'si_lq_maq_nointerv'], ['Usar los fonos bien puestos en la zona con ruido', 0, 'si_lq_rui_fonos:L'],
+        ['Levantar una carga doblando la espalda', 1, 'si_t1_c_tec:L'], ['Tapar un extintor con cajas', 1, 'si_t2_cuidar:L'], ['Seguir el procedimiento sin saltarse pasos', 0, 'si_in_pts_q']],
       w: 'Así sí: pasillos peatonales, fonos en zonas con ruido y procedimientos completos. Así no: intervenir máquinas en marcha, cargar de más o tapar extintores.' },
     { tema: 'induccion', emp: ['agroex'], tipo: 'vestir', q: '🧩 Actividad: prepara al trabajador para entrar al packing.',
-      items: [['Cofia', 1, '🧢', { cofia: true }], ['Mascarilla', 1, '😷', { mask: true }], ['Cotona verde o azul', 1, '🥼', { shirt: '#2E7D32' }], ['Zapatos de seguridad', 1, '🥾', { boots: '#37474F' }],
-        ['Pulsera', 0, '📿', null, 'Las pulseras se enganchan en cintas y rodillos.'], ['Sandalias', 0, '🩴', null, 'En el packing se usan zapatos de seguridad.']],
+      items: [['Cofia', 1, 'cofia', { cofia: true }], ['Mascarilla', 1, 'mascarilla', { mask: true }], ['Cotona verde o azul', 1, 'cotona#2E7D32', { shirt: '#2E7D32' }], ['Zapatos de seguridad', 1, 'zapatos', { boots: '#37474F' }],
+        ['Pulsera', 0, 'pulsera', null, 'Las pulseras se enganchan en cintas y rodillos.'], ['Sandalias', 0, 'sandalias', null, 'En el packing se usan zapatos de seguridad.']],
       w: 'Para entrar al packing: cofia con todo el pelo adentro, mascarilla, cotona verde o azul y zapatos de seguridad. Sin pulseras ni anillos.' },
     { tema: 'induccion', emp: ['agroex'], tipo: 'tarjetas', q: '🧩 Actividad: ¿así sí o así no? Desliza cada tarjeta.',
-      items: [['Caminar por el pasillo peatonal, lejos de las grúas', 0, '🚶'], ['Sacar fruta trabada con la cinta andando', 1, '🍒'], ['Cruzar la línea por la pasarela', 0, '🌉'],
-        ['Mover un bin lleno a mano', 1, '📦'], ['Tomar agua seguido durante el turno', 0, '💧'], ['Subirse a la cinta detenida para cruzar', 1, '🧗']],
+      items: [['Caminar por el pasillo despejado', 0, 'si_pk_pasillo:R'], ['Sacar fruta trabada con la cinta andando', 1, 'si_pk_nometer:L'], ['Cruzar la línea por la pasarela', 0, 'si_pk_encima:R'],
+        ['Correr dentro del packing', 1, 'si_pk_correr:L'], ['Tomar agua seguido durante el turno', 0, 'si_in_calor_q'], ['Subirse a la cinta para cruzar', 1, 'si_pk_encima:L']],
       w: 'Así sí: pasillos, pasarelas y agua seguido. Así no: meter la mano a la cinta andando, mover bins llenos a mano o subirse a la cinta.' },
     { tema: 'induccion', emp: ['agricola'], tipo: 'vestir', q: '🧩 Actividad: prepara al trabajador para salir al huerto.',
-      items: [['Overol', 1, '🧥', { shirt: '#1F3A6B', pants: '#1F3A6B' }], ['Legionario con cubrenuca', 1, '👒', { hat: 'legion' }], ['Lentes con filtro UV', 1, '🕶️', { glasses: true }],
-        ['Guantes', 1, '🧤', { gloves: '#8D6E63' }], ['Calzado de seguridad', 1, '🥾', { boots: '#5D4037' }], ['Bloqueador solar', 1, '🧴', {}],
-        ['Polera sin mangas', 0, '🎽', null, 'Los brazos al sol se queman: se usa manga larga u overol.'], ['Sandalias', 0, '🩴', null, 'En el huerto se usa calzado de seguridad.']],
+      items: [['Overol', 1, 'overol', { shirt: '#1F3A6B', pants: '#1F3A6B' }], ['Legionario con cubrenuca', 1, 'legionario', { hat: 'legion' }], ['Lentes con filtro UV', 1, 'lentes', { glasses: true }],
+        ['Guantes', 1, 'guantes#8D6E63', { gloves: '#8D6E63' }], ['Calzado de seguridad', 1, 'botas#5D4037', { boots: '#5D4037' }], ['Bloqueador solar', 1, 'bloqueador', {}],
+        ['Polera sin mangas', 0, 'polera', null, 'Los brazos al sol se queman: se usa manga larga u overol.'], ['Sandalias', 0, 'sandalias', null, 'En el huerto se usa calzado de seguridad.']],
       w: 'En el huerto: overol, legionario con cubrenuca, lentes con filtro UV, bloqueador, guantes y calzado de seguridad.' },
     { tema: 'induccion', emp: ['agricola'], tipo: 'tarjetas', q: '🧩 Actividad: ¿así sí o así no? Desliza cada tarjeta.',
-      items: [['Guardar las tijeras en su funda', 0, '✂️'], ['Mover un bin lleno a mano', 1, '📦'], ['Caminar por el borde del camino, donde el tractorista me vea', 0, '🚶'],
-        ['Subirme al tractor como pasajero', 1, '🚜'], ['Ventilar la bodega 30 minutos antes de limpiarla', 0, '🐭'], ['Entrar a un cuartel recién aplicado antes del reingreso', 1, '☠️']],
+      items: [['Guardar las herramientas de corte en su funda', 0, 'si_ag_poda_herr'], ['Subir a los dos últimos peldaños de la escalera', 1, 'si_ag_esc_peld:L'], ['Caminar donde el tractorista me vea', 0, 'si_ag_ter_tractor'],
+        ['Subirme al tractor como pasajero', 1, 'si_ag_trc_pasaj'], ['Ventilar la bodega 30 minutos antes de limpiarla', 0, 'si_t2_ventilar'], ['Entrar a un cuartel recién aplicado antes del reingreso', 1, 'si_ag_rei_plazo:L']],
       w: 'Así sí: herramientas en su funda, caminar a la vista del tractorista y ventilar antes de limpiar. Así no: bins a mano, viajar en el tractor o entrar antes del reingreso.' },
     { tema: 'induccion', emp: ['inversiones'], tipo: 'tarjetas', q: '🧩 Actividad: en la oficina, ¿así sí o así no? Desliza cada tarjeta.',
-      items: [['Pasillos y salidas libres', 0, '🚪'], ['Un alargador cruzando el paso', 1, '🔌'], ['Subirme a una silla con ruedas para alcanzar un archivo', 1, '🪑'],
-        ['Cerrar los cajones después de usarlos', 0, '🗄️'], ['Llevar las cajas de archivo en un carro', 0, '🛒'], ['Dejar cajas apiladas frente a la salida', 1, '📦']],
+      items: [['Mantener las salidas libres', 0, 'si_es_o_orden:R'], ['Un alargador cruzando el paso', 1, 'si_es_o_cables:L'], ['Subirme a una silla con ruedas para alcanzar algo', 1, 'si_es_o_silla:L'],
+        ['Cerrar los cajones después de usarlos', 0, 'si_es_o_cajones:R'], ['Dejar cajas apiladas frente a la salida', 1, 'si_es_o_orden:L'], ['Usar una escalera de mano para alcanzar lo alto', 0, 'si_es_o_silla:R']],
       w: 'Así sí: pasillos libres, cajones cerrados y carro para lo pesado. Así no: cables en el paso, subirse a sillas con ruedas o tapar salidas.' },
     { tema: 'induccion', emp: ['inversiones'], tipo: 'vestir', q: '🧩 Actividad: vas de visita a la planta de quesos. Prepárate para entrar.',
-      items: [['Cofia', 1, '🧢', { cofia: true }], ['Mascarilla', 1, '😷', { mask: true }],
-        ['Anillo', 0, '💍', null, 'En la planta no se usan anillos: se enganchan y pueden caer al producto.'], ['Reloj', 0, '⌚', null, 'El reloj se saca antes de entrar.']],
+      items: [['Cofia', 1, 'cofia', { cofia: true }], ['Mascarilla', 1, 'mascarilla', { mask: true }],
+        ['Anillo', 0, 'anillo', null, 'En la planta no se usan anillos: se enganchan y pueden caer al producto.'], ['Reloj', 0, 'reloj', null, 'El reloj se saca antes de entrar.']],
       w: 'De visita en la planta: cofia y mascarilla, pasar por el filtro sanitario y sin accesorios. No te acerques a las máquinas ni toques el producto.' },
     // ===== Charlas =====
     { tema: 'autocuidado', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: ¿lo hace una persona o está en el lugar? Desliza cada tarjeta.',
       cats: ['🙋 Acto inseguro', '🏚️ Condición insegura'], sub: ['lo hace una persona', 'está en el lugar'],
-      items: [['[[L:Meter la mano en la selladora en marcha|X:Meter la mano en la calibradora en marcha|A:Pararse en el último peldaño de la escalera|I:Subirse a una silla con ruedas para alcanzar algo]]', 0, '🖐️'],
-        ['[[L:Suero en el piso sin señalizar|X:Agua del hidrocooler en el piso sin señalizar|A:Una escalera con un peldaño suelto|I:Un alargador cruzando el pasillo]]', 1, '💧'],
-        ['Trabajar sin el EPP que corresponde', 0, '🚫'], ['Un extintor tapado con cajas', 1, '🧯'], ['Correr dentro del área de trabajo', 0, '🏃'],
-        ['[[L:Una protección suelta en la laminadora|X:Un pallet roto en el pasillo|A:Una rama a la altura de la cara en la hilera|I:Un enchufe quemado]]', 1, '⚠️']],
+      items: [['[[L:Meter la mano en la tina en marcha|X:Meter la mano en la cinta en marcha|A:Estirarse en la escalera para alcanzar la fruta|I:Subirse a una silla con ruedas]]', 0, 'si_t1_acto'],
+        ['[[L:Agua en el piso sin señalizar|X:Pallets rotos apilados en el pasillo|A:Una escalera tirada en la hilera|I:Un cable cruzando el paso]]', 1, 'si_t1_cond'],
+        ['[[L:Correr dentro de la planta|X:Correr dentro del packing|A:Subir al último peldaño de la escalera|I:Bajar la escalera sin tomarse del pasamanos]]', 0, '[[L:si_lq_pis_nocorrer:L|X:si_pk_correr:L|A:si_ag_esc_peld:L|I:si_es_o_escaleras:L]]'],
+        ['Un extintor tapado con cajas', 1, 'si_t2_cuidar:L'],
+        ['[[L:Una protección suelta en la máquina|X:Un resguardo de la línea sacado|A:Una escalera dañada|I:Una zapatilla eléctrica sobrecargada]]', 1, '[[L:si_lq_maq_resguardo:L|X:si_pk_resguardo:L|A:si_ag_esc_revisa|I:si_es_o_enchufes:L]]'],
+        ['[[L:Andar con anillos o pulseras en la planta|X:Trabajar con el pelo fuera de la cofia|A:Cortar con la tijera hacia la otra mano|I:Dejar abiertos varios cajones del archivador]]', 0, '[[L:si_lq_hig_atrap:L|X:si_pk_ropa:L|A:si_ag_poda_corte:L|I:si_es_o_cajones:L]]']],
       w: 'Acto inseguro: lo que una persona hace o deja de hacer. Condición insegura: algo del lugar, del equipo o del material que puede causar un accidente.' },
     { tema: 'epp', emp: ['lacteos'], tipo: 'vestir', q: '🧩 Actividad: viste al trabajador con su EPP de la planta.',
-      items: [['Cofia', 1, '🧢', { cofia: true }], ['Mascarilla', 1, '😷', { mask: true }], ['Cotona y pechera blancas', 1, '🥼', { shirt: '#FFFFFF', apron: '#FFFFFF' }],
-        ['Guantes de nitrilo amarillos', 1, '🧤', { gloves: '#FDD835' }], ['Botas blancas de seguridad', 1, '🥾', { boots: '#FAFAFA', pants: '#ECEFF1' }],
-        ['Gorro de lana', 0, '🧶', null, 'El pelo va dentro de la cofia, no de un gorro.'], ['Zapatillas', 0, '👟', null, 'En la planta se usan botas blancas de seguridad.'], ['Pulsera', 0, '📿', null, 'Las pulseras están prohibidas en la planta.']],
+      items: [['Cofia', 1, 'cofia', { cofia: true }], ['Mascarilla', 1, 'mascarilla', { mask: true }], ['Cotona y pechera blancas', 1, 'pechera', { shirt: '#FFFFFF', apron: '#FFFFFF' }],
+        ['Guantes de nitrilo amarillos', 1, 'guantes#FDD835', { gloves: '#FDD835' }], ['Botas blancas de seguridad', 1, 'botas#FAFAFA', { boots: '#FAFAFA', pants: '#ECEFF1' }],
+        ['Gorro de lana', 0, 'gorro_lana', null, 'El pelo va dentro de la cofia, no de un gorro.'], ['Zapatillas', 0, 'zapatillas', null, 'En la planta se usan botas blancas de seguridad.'], ['Pulsera', 0, 'pulsera', null, 'Las pulseras están prohibidas en la planta.']],
       w: 'En la planta: cotona y pechera blancas, cofia, mascarilla, guantes de nitrilo amarillos y botas blancas de seguridad.' },
     { tema: 'epp', emp: ['agroex'], tipo: 'vestir', q: '🧩 Actividad: viste al trabajador con su EPP del packing.',
-      items: [['Cofia', 1, '🧢', { cofia: true }], ['Mascarilla', 1, '😷', { mask: true }], ['Cotona verde o azul', 1, '🥼', { shirt: '#1565C0' }], ['Zapatos de seguridad', 1, '🥾', { boots: '#37474F' }],
-        ['Anillo', 0, '💍', null, 'Los anillos se enganchan en cintas y rodillos.'], ['Sandalias', 0, '🩴', null, 'En el packing se usan zapatos de seguridad.'], ['Gorro de lana', 0, '🧶', null, 'El pelo va completo dentro de la cofia.']],
+      items: [['Cofia', 1, 'cofia', { cofia: true }], ['Mascarilla', 1, 'mascarilla', { mask: true }], ['Cotona verde o azul', 1, 'cotona#1565C0', { shirt: '#1565C0' }], ['Zapatos de seguridad', 1, 'zapatos', { boots: '#37474F' }],
+        ['Anillo', 0, 'anillo', null, 'Los anillos se enganchan en cintas y rodillos.'], ['Sandalias', 0, 'sandalias', null, 'En el packing se usan zapatos de seguridad.'], ['Gorro de lana', 0, 'gorro_lana', null, 'El pelo va completo dentro de la cofia.']],
       w: 'En el packing: cotona verde o azul, cofia, mascarilla y zapatos de seguridad. Nada de anillos, pulseras ni collares.' },
     { tema: 'epp', emp: ['agricola'], tipo: 'vestir', q: '🧩 Actividad: viste al trabajador para trabajar protegido en el huerto.',
-      items: [['Overol', 1, '🧥', { shirt: '#1F3A6B', pants: '#1F3A6B' }], ['Legionario con cubrenuca', 1, '👒', { hat: 'legion' }], ['Lentes con filtro UV', 1, '🕶️', { glasses: true }],
-        ['Guantes', 1, '🧤', { gloves: '#8D6E63' }], ['Calzado de seguridad', 1, '🥾', { boots: '#5D4037' }],
-        ['Polera sin mangas', 0, '🎽', null, 'Los brazos al sol se queman: se usa overol.'], ['Sandalias', 0, '🩴', null, 'En el huerto se usa calzado de seguridad.']],
+      items: [['Overol', 1, 'overol', { shirt: '#1F3A6B', pants: '#1F3A6B' }], ['Legionario con cubrenuca', 1, 'legionario', { hat: 'legion' }], ['Lentes con filtro UV', 1, 'lentes', { glasses: true }],
+        ['Guantes', 1, 'guantes#8D6E63', { gloves: '#8D6E63' }], ['Calzado de seguridad', 1, 'botas#5D4037', { boots: '#5D4037' }],
+        ['Polera sin mangas', 0, 'polera', null, 'Los brazos al sol se queman: se usa overol.'], ['Sandalias', 0, 'sandalias', null, 'En el huerto se usa calzado de seguridad.']],
       w: 'En el huerto: overol, legionario o jockey con cubrenuca, lentes con filtro UV y bloqueador, más guantes y calzado de seguridad según la labor.' },
     { tema: 'cargas', emp: TODAS, tipo: 'orden', q: '🧩 Actividad: ordena los pasos para levantar una carga.',
       items: ['Evalúo el peso y, si es mucho, pido ayuda o uso una ayuda mecánica', 'Me acerco a la carga y separo los pies', 'Doblo las rodillas con la espalda recta', 'La tomo firme y la levanto con las piernas, pegada al cuerpo'],
@@ -398,9 +429,9 @@
       items: ['Dejo lo que estoy haciendo, sin volver por mis cosas', 'Camino rápido, sin correr, por la vía de evacuación', 'Llego a la zona de seguridad con mi grupo', 'Aviso a mi líder que estoy bien'],
       w: 'Sales sin buscar tus cosas, caminas rápido por la vía de evacuación, llegas a la zona de seguridad y avisas a tu líder que estás bien.' },
     { tema: 'higiene', emp: ['lacteos'], tipo: 'tarjetas', q: '🧩 Actividad: ¿se puede entrar así a la planta? Desliza cada tarjeta.',
-      items: [['Con anillo o argolla de matrimonio', 1, '💍'], ['Con la cofia cubriendo todo el pelo', 0, '🧢'], ['Con reloj', 1, '⌚'], ['Con las manos recién lavadas', 0, '🧼'],
-        ['Mascando chicle', 1, '🍬'], ['Con aros', 1, '💎'], ['Con botas blancas de seguridad', 0, '🥾']],
-      w: 'Se entra con cofia que cubre todo el pelo, manos lavadas y botas blancas. Anillos, reloj, aros y chicle no entran a la planta.' },
+      items: [['Con anillo o argolla de matrimonio', 1, 'si_lq_hig_atrap:L'], ['Con la ropa de proceso completa', 0, 'si_lq_hig_ropa'], ['Con uñas largas o pintadas', 1, 'si_lq_hig_unas:L'], ['Con las manos recién lavadas', 0, 'si_lq_hig_manos'],
+        ['Después de pasar por el pediluvio', 0, 'si_lq_hig_filtro'], ['Con fiebre o diarrea, sin avisar', 1, 'si_lq_hig_salud'], ['Con la herida cubierta con apósito y guante', 0, 'si_lq_hig_unas:R']],
+      w: 'Se entra con la ropa de proceso completa, las manos lavadas, después del pediluvio y con las heridas cubiertas. Anillos, uñas largas o entrar enfermo sin avisar, no.' },
     { tema: 'maquinas', emp: ['lacteos'], tipo: 'orden', q: '🧩 Actividad: se trabó un queso en la máquina. Ordena los pasos antes de intervenir.',
       items: ['Detengo la máquina', 'Espero que pare del todo', 'La bloqueo con su bloqueo propio', 'Verifico que no parta'],
       w: 'Detener, esperar que pare, bloquear y verificar. Recién entonces se interviene.' },
@@ -408,37 +439,42 @@
       items: ['Detiene la máquina', 'La bloquea con su bloqueo propio y su tarjeta', 'Verifica que no se mueve', 'Recién ahí saca la fruta trabada'],
       w: 'Nunca con la máquina andando: se detiene, se bloquea con bloqueo y tarjeta, se verifica y recién se destraba.' },
     { tema: 'ag_aplicacion', emp: ['agricola'], tipo: 'vestir', q: '🧩 Actividad: viste al aplicador de agroquímicos con todo su EPP.',
-      items: [['Traje impermeable con capucha', 1, '🦺', { shirt: '#E0E0E0', pants: '#E0E0E0' }], ['Respirador con filtros', 1, '😷', { mask: true }], ['Antiparras', 1, '🥽', { glasses: true }],
-        ['Guantes de nitrilo', 1, '🧤', { gloves: '#2E7D32' }], ['Botas de goma', 1, '🥾', { boots: '#212121' }],
-        ['Mascarilla de tela', 0, '🧣', null, 'La tela no protege de los agroquímicos: se usa respirador con filtros.'], ['Zapatillas', 0, '👟', null, 'El líquido entra: se usan botas de goma con el pantalón por fuera.']],
+      items: [['Traje impermeable con capucha', 1, 'traje', { shirt: '#FBC02D', pants: '#FBC02D' }], ['Respirador con filtros', 1, 'respirador', { mask: true }], ['Antiparras', 1, 'antiparras', { glasses: true }],
+        ['Guantes de nitrilo', 1, 'guantes#2E7D32', { gloves: '#2E7D32' }], ['Botas de goma', 1, 'botas#212121', { boots: '#212121' }],
+        ['Mascarilla de tela', 0, 'mascarilla_tela', null, 'La tela no protege de los agroquímicos: se usa respirador con filtros.'], ['Zapatillas', 0, 'zapatillas', null, 'El líquido entra: se usan botas de goma con el pantalón por fuera.']],
       w: 'Traje impermeable con capucha, respirador con filtros adecuados, antiparras, guantes de nitrilo y botas de goma con el pantalón por fuera.' },
-    { tema: 'ag_tractor', emp: ['agricola'], tipo: 'tarjetas', q: '🧩 Actividad: vas a bajarte del tractor. ¿Así sí o así no?',
-      items: [['Poner el freno de mano', 0, '🅿️'], ['Bajar el implemento al suelo', 0, '⬇️'], ['Apagar el motor y sacar la llave', 0, '🔑'], ['Dejar el motor andando para volver rápido', 1, '💨'],
-        ['Saltar desde el peldaño', 1, '🦘'], ['Bajar de frente, con tres puntos de apoyo', 0, '🧗']],
-      w: 'Freno de mano puesto, implemento abajo, motor apagado y llave fuera. Se baja de frente, con tres puntos de apoyo, sin saltar.' },
+    { tema: 'ag_tractor', emp: ['agricola'], tipo: 'tarjetas', q: '🧩 Actividad: trabajo con tractor. ¿Así sí o así no?',
+      items: [['Bajarse con freno puesto, implemento abajo y sin llave', 0, 'si_ag_trc_subir'], ['Llevar a un compañero en el tractor', 1, 'si_ag_trc_pasaj'], ['Usar el cinturón con la ROPS levantada', 0, 'si_ag_trc_rops:R'],
+        ['Andar por el borde del canal', 1, 'si_ag_trc_pend:L'], ['Mirar alrededor antes de moverse', 0, 'si_ag_trc_alrededor'], ['Pararse detrás del tractor que retrocede', 1, 'si_ag_ter_retro']],
+      w: 'Antes de bajarte: freno, implemento abajo y llave fuera. Cinturón con ROPS, lejos de bordes de canal, mirar alrededor y nunca pasajeros ni gente detrás al retroceder.' },
     { tema: 'pvd', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: tu puesto con computador. ¿Así sí o así no?',
-      items: [['Pantalla a la altura de los ojos', 0, '🖥️'], ['Pies colgando, sin reposapiés', 1, '🦶'], ['Espalda apoyada en el respaldo', 0, '🪑'], ['Muñecas dobladas hacia arriba al teclear', 1, '⌨️'],
-        ['Pantalla de frente a la ventana, con reflejos', 1, '☀️'], ['Pausa activa una vez cada hora', 0, '🙆']],
+      items: [['Pantalla a la altura de los ojos', 0, 'si_es_p_pantalla:R'], ['Pies colgando, sin reposapiés', 1, 'si_es_p_pies:L'], ['Espalda apoyada en el respaldo', 0, 'si_es_p_lumbar:R'], ['Muñecas dobladas al teclear', 1, 'si_es_p_teclado:L'],
+        ['Notebook sin soporte por horas', 1, 'si_es_p_notebook:L'], ['Pausa activa una vez cada hora', 0, 'si_es_p_pausas']],
       w: 'Pantalla a la altura de los ojos y de lado a la ventana, espalda apoyada, pies planos en el piso, muñecas rectas y pausas cada hora.' },
-    { tema: 'calor', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: un compañero tiene síntomas por calor. ¿Así sí o así no?',
-      items: [['Llevarlo a la sombra o a un lugar fresco', 0, '🌳'], ['Que termine su tarea antes de descansar', 1, '⏱️'], ['Mojar su piel y abanicarlo', 0, '💦'], ['Darle agua aunque esté desmayado', 1, '🥤'],
-        ['Avisar a la jefatura', 0, '📣'], ['Dejarlo solo para que descanse', 1, '🚶']],
+    { tema: 'calor', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: calor. ¿Así sí o así no?',
+      items: [['Llevarlo a la sombra o a un lugar fresco', 0, 'si_t2_ayuda'], ['Que siga trabajando al sol', 1, 'si_t2_termo'], ['Darle agua a sorbos si está consciente', 0, 'si_in_calor_q'], ['Dejarlo solo para que descanse', 1, 'si_t2_golpe'],
+        ['Avisar a la jefatura y llamar a la ACHS (1404)', 0, 'si_t2_aviso_calor'], ['Ignorar el mareo para terminar la tarea', 1, 'si_t2_sintomas']],
       w: 'A la sombra, sin seguir trabajando, piel mojada y aire. Agua a sorbos solo si está consciente. No se deja solo y se avisa a la jefatura.' },
     { tema: 'uv', emp: TODAS, tipo: 'tarjetas', q: '🧩 Actividad: protección contra el sol. ¿Así sí o así no?',
-      items: [['Legionario o jockey con cubrenuca', 0, '👒'], ['Ropa de manga larga', 0, '👕'], ['Bloqueador cada 2 horas', 0, '🧴'], ['Sacarse la polera por el calor', 1, '🎽'],
-        ['Bloqueador solo una vez en la mañana', 1, '🌅'], ['Si está nublado, no hay que protegerse', 1, '☁️'], ['Pausas a la sombra', 0, '🌳']],
+      items: [['Legionario, overol y lentes UV', 0, 'si_t2_epp_uv'], ['Bloqueador cada 2 horas', 0, 'si_t2_fps'], ['Al sol de 11 a 16 h sin protegerse', 1, 'si_t2_horario'], ['Pausas a la sombra', 0, 'si_t2_sombra'],
+        ['Si está nublado, no hay que protegerse', 1, 'si_in_uv_q'], ['No avisar un lunar que cambió', 1, 'si_t2_piel']],
       w: 'Legionario con cubrenuca, manga larga, bloqueador repetido cada 2 horas y pausas a la sombra, también en días nublados.' }
   ];
   window.SI_ACT = SI_ACT;
   const actsDe = (tema, e) => SI_ACT.filter(a => a.tema === tema && a.emp.indexOf(e) >= 0).map(a => {
     const r = s => window.siTxt(s, e);
     const act = { tipo: a.tipo, cats: a.cats || ['✅ Así sí', '❌ Así no'], sub: a.sub || null, binario: !a.cats,
-      items: a.tipo === 'orden' ? a.items.map(r) : a.items.map(x => [r(x[0]), x[1], x[2] || '', x[3] || null, x[4] ? r(x[4]) : '']) };
+      items: a.tipo === 'orden' ? a.items.map(r) : a.items.map(x => [r(x[0]), x[1], x[2] ? r(x[2]) : '', x[3] || null, x[4] ? r(x[4]) : '']) };
     return { act, q: r(a.q), w: r(a.w), o: [''], a: 0, s: '' };
   });
   window.__siActsDe = actsDe;
   const mezclarA = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const escA = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const escena = ref => { const m = String(ref || '').match(/^([\w]+)(?::([LR]))?$/); if (!m || typeof S === 'undefined' || !S[m[1]]) return '';
+    let v = ''; try { v = S[m[1]](); } catch (e) { return ''; }
+    v = v.replace(/<circle[^>]*stroke="#fff" stroke-width="3"\/><path[^>]*\/>/g, '');
+    if (m[2]) v = v.replace(/viewBox="0 0 320 200"/, m[2] === 'L' ? 'viewBox="0 0 160 200"' : 'viewBox="160 0 160 200"');
+    return v; };
   function pintarAct(q) {
     const A = q.act, B = document.getElementById('qBody'); if (!B) return;
     let corr = '';
@@ -457,7 +493,7 @@
         <div class="tjBt"><button class="tjK ${cl[1]}" data-k="1">${escA(A.cats[1])}${A.sub ? `<small>${escA(A.sub[1])}</small>` : ''}</button><button class="tjK ${cl[0]}" data-k="0">${escA(A.cats[0])}${A.sub ? `<small>${escA(A.sub[0])}</small>` : ''}</button></div></div>`;
     } else if (A.tipo === 'vestir') {
       h += `<div class="vsW"><div class="vsFig" id="vsFig"></div><div class="vsMsg" id="vsMsg">👆 Toca o arrastra cada cosa al trabajador</div>
-        <div class="vsIt">${mezclarA(A.items.map((x, i) => i)).map(i => `<button class="vsC" data-i="${i}"><span class="vsE">${A.items[i][2]}</span><span>${escA(A.items[i][0])}</span></button>`).join('')}</div>
+        <div class="vsIt">${mezclarA(A.items.map((x, i) => i)).map(i => `<button class="vsC" data-i="${i}"><span class="vsE">${icoSvg(A.items[i][2])}</span><span>${escA(A.items[i][0])}</span></button>`).join('')}</div>
         <button class="acOk" id="vsOk">Listo, ya está preparado</button></div>`;
     } else if (A.tipo === 'clasifica') {
       h += `<div class="acL">${mezclarA(A.items.map((x, i) => i)).map(i => `<div class="acC" data-i="${i}"><div class="acCt">${escA(A.items[i][0])}</div><div class="acCb">${A.cats.map((c, k) => `<button class="acK" data-k="${k}">${escA(c)}</button>`).join('')}</div></div>`).join('')}</div>`;
@@ -489,7 +525,7 @@
           enviar(bien === ord.length, resp.map(x => A.items[x.i][0] + ': ' + A.cats[x.k].replace(/^\S+\s/, '')).join(' · ')); return;
         }
         const it = A.items[ord[pos]];
-        stage.innerHTML = `<div class="tjCard" id="tjCard"><div class="tjL tjLi">${escA(A.cats[1])}</div><div class="tjL tjLd">${escA(A.cats[0])}</div><div class="tjE">${it[2] || '❓'}</div><div class="tjT">${escA(it[0])}</div><div class="tjH">⬅ desliza ➡</div></div><div class="tjFb" id="tjFb"></div>`;
+        stage.innerHTML = `<div class="tjCard" id="tjCard"><div class="tjL tjLi">${escA(A.cats[1])}</div><div class="tjL tjLd">${escA(A.cats[0])}</div><div class="tjI">${escena(it[2])}</div><div class="tjT">${escA(it[0])}</div><div class="tjH">⬅ desliza ➡</div></div><div class="tjFb" id="tjFb"></div>`;
         const c = stage.querySelector('#tjCard'); let x0 = null, dx = 0;
         c.onpointerdown = ev => { if (bloqueado() || ocupado) return; x0 = ev.clientX; dx = 0; c.setPointerCapture(ev.pointerId); c.style.transition = 'none'; };
         c.onpointermove = ev => { if (x0 === null) return; dx = ev.clientX - x0; c.style.transform = `translateX(${dx}px) rotate(${dx / 14}deg)`;
@@ -527,7 +563,7 @@
       B.querySelectorAll('.vsC').forEach(b => {
         let x0 = null, y0 = 0, ghost = null;
         b.onpointerdown = ev => { if (bloqueado() || b.disabled) return; x0 = ev.clientX; y0 = ev.clientY; b.setPointerCapture(ev.pointerId); };
-        b.onpointermove = ev => { if (x0 === null) return; if (!ghost && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 10) { ghost = document.createElement('div'); ghost.className = 'vsG'; ghost.textContent = b.querySelector('.vsE').textContent; document.body.appendChild(ghost); }
+        b.onpointermove = ev => { if (x0 === null) return; if (!ghost && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 10) { ghost = document.createElement('div'); ghost.className = 'vsG'; ghost.innerHTML = b.querySelector('.vsE').innerHTML; document.body.appendChild(ghost); }
           if (ghost) { ghost.style.left = ev.clientX + 'px'; ghost.style.top = ev.clientY + 'px'; const r = fig.getBoundingClientRect(); fig.classList.toggle('sobre', ev.clientX > r.left && ev.clientX < r.right && ev.clientY > r.top && ev.clientY < r.bottom); } };
         b.onpointerup = ev => { if (x0 === null) return; x0 = null; fig.classList.remove('sobre');
           if (ghost) { ghost.remove(); ghost = null; const r = fig.getBoundingClientRect(); if (ev.clientX > r.left && ev.clientX < r.right && ev.clientY > r.top && ev.clientY < r.bottom) poner(b); } else poner(b); };
@@ -569,11 +605,11 @@
   const cssT = document.createElement('style');
   cssT.textContent = `.tjW{display:flex;flex-direction:column;gap:12px}.tjP{display:flex;align-items:center;gap:6px;justify-content:center}.tjP span{width:12px;height:12px;border-radius:50%;background:#ffffff33}
 .tjP span.act{background:#F2B33D;transform:scale(1.25)}.tjP span.ok{background:#43A047}.tjP span.mal{background:#E53935}.tjP b{color:#BBD0F2;font-size:13px;margin-left:6px}
-.tjStage{position:relative;height:250px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.tjCard{position:relative;width:88%;max-width:330px;height:225px;background:#fff;color:#1F2937;border-radius:22px;box-shadow:0 10px 26px rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;touch-action:none;user-select:none;cursor:grab;transition:transform .25s}
-.tjCard .tjE{font-size:62px;line-height:1}.tjCard .tjT{font-size:18px;font-weight:bold;margin-top:12px;line-height:1.25}.tjCard .tjH{position:absolute;bottom:10px;font-size:12px;color:#9AA5B4;letter-spacing:1px}
-.tjL{position:absolute;top:14px;padding:4px 10px;border-radius:8px;font-weight:bold;font-size:14px;opacity:0;border:3px solid}.tjLd{left:14px;color:#2E7D32;border-color:#2E7D32;transform:rotate(-12deg)}.tjLi{right:14px;color:#C62828;border-color:#C62828;transform:rotate(12deg)}
-.tjFb{position:absolute;bottom:4px;left:50%;transform:translateX(-50%) scale(.8);opacity:0;padding:8px 16px;border-radius:20px;font-weight:bold;font-size:16px;transition:all .2s;white-space:nowrap}.tjFb.on{opacity:1;transform:translateX(-50%) scale(1)}
+.tjStage{position:relative;height:330px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.tjCard{position:relative;width:92%;max-width:340px;height:300px;overflow:hidden;background:#fff;color:#1F2937;border-radius:22px;box-shadow:0 10px 26px rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0 0 26px;text-align:center;touch-action:none;user-select:none;cursor:grab;transition:transform .25s}
+.tjCard .tjI{width:100%;height:190px;background:#EEF2F6;display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none}.tjCard .tjI svg{height:100%;width:auto;max-width:100%}.tjCard .tjT{font-size:17px;font-weight:bold;margin:12px 14px 0;line-height:1.25}.tjCard .tjH{position:absolute;bottom:10px;font-size:12px;color:#9AA5B4;letter-spacing:1px}
+.tjL{position:absolute;top:14px;padding:4px 10px;border-radius:8px;font-weight:bold;font-size:15px;opacity:0;border:3px solid;background:#fff;z-index:2}.tjLd{left:14px;color:#2E7D32;border-color:#2E7D32;transform:rotate(-12deg)}.tjLi{right:14px;color:#C62828;border-color:#C62828;transform:rotate(12deg)}
+.tjFb{position:absolute;bottom:2px;z-index:3;left:50%;transform:translateX(-50%) scale(.8);opacity:0;padding:8px 16px;border-radius:20px;font-weight:bold;font-size:16px;transition:all .2s;white-space:nowrap}.tjFb.on{opacity:1;transform:translateX(-50%) scale(1)}
 .tjFb.ok{background:#43A047;color:#fff}.tjFb.mal{background:#E53935;color:#fff}
 .tjFin{background:#fff;color:#1F2937;border-radius:22px;padding:26px 20px;text-align:center;width:88%;max-width:330px;box-shadow:0 10px 26px rgba(0,0,0,.35)}.tjFin .tjE{font-size:60px}.tjFin .tjT{font-size:22px;font-weight:800;color:#12357F;margin-top:6px}.tjFin .tjS{font-size:16px;margin-top:4px}
 .tjBt{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tjK{border:none;border-radius:16px;padding:14px 8px;font:inherit;font-size:17px;font-weight:bold;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 4px 0 rgba(0,0,0,.25)}
@@ -584,8 +620,8 @@
 .vsPop{animation:vsPop .45s ease}@keyframes vsPop{0%{transform:scale(1)}40%{transform:scale(1.05)}100%{transform:scale(1)}}.vsPop{transform-origin:100px 200px}
 .vsMsg{min-height:44px;background:#ffffff14;color:#fff;border-radius:12px;padding:10px 12px;font-size:15px;text-align:center;line-height:1.3}.vsMsg.ok{background:#E8F5E9;color:#1B5E20;font-weight:bold}.vsMsg.mal{background:#FFEBEE;color:#B71C1C;font-weight:bold}
 .vsIt{display:grid;grid-template-columns:1fr 1fr;gap:8px}.vsC{display:flex;align-items:center;gap:8px;background:var(--dark2);color:#fff;border:2px solid var(--line);border-radius:14px;padding:10px;font:inherit;font-size:14px;text-align:left;line-height:1.2;cursor:grab;touch-action:none;user-select:none}
-.vsC .vsE{font-size:28px;flex:none}.vsC.ok{background:#E8F5E9;color:#1B5E20;border-color:#43A047}.vsC.mal{background:#FFEBEE;color:#B71C1C;border-color:#E53935;text-decoration:line-through}
-.vsG{position:fixed;z-index:9999;font-size:46px;pointer-events:none;transform:translate(-50%,-60%);filter:drop-shadow(0 4px 6px rgba(0,0,0,.4))}`;
+.vsC .vsE{flex:none;width:44px;height:44px;background:#fff;border-radius:12px;padding:4px;box-sizing:border-box;display:flex}.vsC .vsE svg{width:100%;height:100%}.vsC.ok{background:#E8F5E9;color:#1B5E20;border-color:#43A047}.vsC.mal{background:#FFEBEE;color:#B71C1C;border-color:#E53935;text-decoration:line-through}
+.vsG{position:fixed;z-index:9999;width:64px;height:64px;background:#fff;border-radius:16px;padding:6px;box-sizing:border-box;pointer-events:none;transform:translate(-50%,-60%);filter:drop-shadow(0 4px 6px rgba(0,0,0,.4))}`;
   document.head.appendChild(cssT);
 
   // ---------- 9d) Aviso antes de la evaluación: no se entra "en seco" a la prueba
