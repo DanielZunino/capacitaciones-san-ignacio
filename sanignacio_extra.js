@@ -81,7 +81,7 @@
   let EMP_HECHA = '';
   function construir(e) {
     if (!EMPRESAS[e]) e = 'lacteos';
-    if (EMP_HECHA === e && TOPICS.length) { window.SI_EMP = e; if (M_ACT !== EMPRESAS[e]) marca(e); return; }
+    if (EMP_HECHA === e && TOPICS.length) { window.SI_EMP = e; if (M_ACT !== EMPRESAS[e]) marca(e); try { window.__siAjInd && window.__siAjInd(e); } catch (er) {} return; }
     window.SI_EMP = e;
     const temas = C.temas.filter(t => (t.emp || []).indexOf(e) >= 0);
     const nuevos = temas.map(t => {
@@ -117,6 +117,7 @@
       IND_FORMULARIO = '#inscribirme';
     } catch (er) {}
     EMP_HECHA = e;
+    try { window.__siAjInd && window.__siAjInd(e); } catch (er) {}
     marca(e);
   }
   window.siConstruir = construir;
@@ -288,12 +289,26 @@
       renderHome(); window.scrollTo(0, y);
     });
   };
+  // Inducción de OTRA empresa (revisores): es un curso aparte. Su título lleva el nombre de la empresa (así queda en el registro)
+  // y se muestra aprobada solo si el revisor aprobó ESA inducción, no la de su propia empresa.
+  const otraEmp = () => { if (!esRevisor()) return ''; const v = empVista(), m = empSesion(); return v && m && v !== m ? v : ''; };
+  const indDe = k => { const E = EMPRESAS[k]; if (!E) return null; const H = ((RUTA && RUTA.hist) || []).filter(h => h.id === 'induccion' && sinT(h.t).indexOf(sinT(E.corto)) >= 0);
+    if (!H.length) return null; const h = H[0], n = parseFloat(String(h.n).replace(',', '.')); return { tema_id: 'induccion', n, nota: h.n, fecha: h.f, codigo: h.c }; };
+  window.__siAjInd = e => { const t = TOPICS.find(x => x.id === 'induccion'); if (!t) return; if (t.__t0 === undefined) t.__t0 = t.title;
+    const o = otraEmp(); t.title = o && o === e ? t.__t0 + ' · ' + EMPRESAS[e].corto : t.__t0; };
   const R1 = renderHome;
   renderHome = function () {
-    const r = R1.apply(this, arguments);
+    let real = null;
+    try { const o = otraEmp(); if (o && RUTA && RUTA.aprob) { real = RUTA.aprob; const vis = Object.assign({}, real); const ap = indDe(o); if (ap) vis.induccion = ap; else delete vis.induccion; RUTA.aprob = vis; } } catch (e) {}
+    let r; try { r = R1.apply(this, arguments); } finally { if (real) RUTA.aprob = real; }
+    try { if (real) { const z = document.getElementById('ruta'); if (z) z.querySelectorAll('*').forEach(el => { if (el.childNodes.length === 1 && el.firstChild.nodeType === 3 && /Sin ella no puedes hacer charlas/.test(el.textContent))
+      el.textContent = 'Inducción de esta empresa, pendiente. Como revisor igual puedes ver sus charlas.'; }); } } catch (e) {}
+    try { window.__siAjInd(EMP_HECHA); } catch (e) {}
     try { barraRevisor(); } catch (e) {}
     return r;
   };
+  if (typeof temaAprobado === 'function') { const TA = temaAprobado;
+    temaAprobado = async function () { try { const o = otraEmp(); if (o && st.topic && st.topic.id === 'induccion') return indDe(o); } catch (e) {} return TA.apply(this, arguments); }; }
   // en cada charla, el revisor ve a qué empresa corresponde
   if (typeof startLearn === 'function') { const SL = startLearn; startLearn = function () { const r = SL.apply(this, arguments); try { if (esRevisor() && EMPRESAS[EMP_HECHA]) { const t = document.getElementById('lTag'); if (t && t.textContent.indexOf(EMPRESAS[EMP_HECHA].corto.toUpperCase()) < 0) t.textContent = EMPRESAS[EMP_HECHA].corto.toUpperCase() + ' · ' + t.textContent; } } catch (e) {} return r; }; }
   if (typeof pickTopic === 'function') { const PT = pickTopic; pickTopic = function () { const r = PT.apply(this, arguments); try { if (esRevisor() && EMPRESAS[EMP_HECHA]) { const t = document.getElementById('dTag'); if (t && t.textContent.trim() && t.textContent.indexOf(' · ') < 0) t.textContent = EMPRESAS[EMP_HECHA].corto.toUpperCase() + ' · ' + t.textContent; } } catch (e) {} return r; }; }
