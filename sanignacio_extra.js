@@ -168,7 +168,7 @@
   const empSesion = () => { try { return empDe(RUTA && RUTA.persona); } catch (e) { return ''; } };
   const R0 = renderHome;
   renderHome = function () {
-    const e = empSesion();
+    const e = window.__siVista ? window.__siVista() : empSesion();
     if (e) construir(e); else { if (!TOPICS.length || EMP_HECHA !== 'lacteos') construir('lacteos'); marcaGrupo(); }
     return R0.apply(this, arguments);
   };
@@ -245,11 +245,63 @@
     }
   } catch (e) {}
 
+  // ---------- 9b) Revisores (Daniel, Giuliano Tassara y Carla Moreno): pueden ver las charlas de las 4 empresas.
+  //      Arriba de las secciones eligen la empresa; el portal dice siempre a qué empresa corresponde lo que están viendo.
+  //      El resto de los trabajadores ve solo lo de su empresa.
+  const REV_RUT = ['166756243', '16529176K'];
+  const REV_NOM = [/DANIEL\s+(FELIPE\s+)?ZUNINO/, /[GJ]IULIANO.*TA[SZ]+ARA|JULIANO.*TA[SZ]+ARA/, /CARLA\s+(ANDREA\s+)?MORENO/];
+  const rkR = r => String(r || '').replace(/[^0-9kK]/g, '').toUpperCase();
+  const esRevisor = () => { try { if (!RUTA || !RUTA.persona) return false; if (REV_RUT.indexOf(rkR(RUTA.rut)) >= 0) return true; const n = sinT(RUTA.persona.nombre); return REV_NOM.some(r => r.test(n)); } catch (e) { return false; } };
+  window.siEsRevisor = esRevisor;
+  let VER = ''; try { VER = localStorage.getItem('sanig_cap_ver') || ''; } catch (e) {}
+  // cada vez que alguien ingresa con su RUT, parte viendo su propia empresa
+  try { const bR = () => { VER = ''; try { localStorage.removeItem('sanig_cap_ver'); } catch (e) {} };
+    document.addEventListener('click', ev => { if (ev.target && (ev.target.id === 'bRuta' || ev.target.id === 'bNoSoy')) bR(); }, true);
+    document.addEventListener('keydown', ev => { if (ev.key === 'Enter' && ev.target && (ev.target.id === 'rutHome' || ev.target.id === 'claveHome')) bR(); }, true); } catch (e) {}
+  const empVista = () => { const e = empSesion(); return esRevisor() && EMPRESAS[VER] ? VER : e; };
+  window.__siVista = empVista;
+  const barraRevisor = () => {
+    const old = document.getElementById('siRev'); if (old) old.remove();
+    if (!esRevisor()) return;
+    const v = empVista(), mia = empSesion(), E = EMPRESAS[v] || EMPRESAS.lacteos, sec = document.getElementById('secciones'); if (!sec) return;
+    const d = document.createElement('div'); d.id = 'siRev';
+    d.innerHTML = `<div class="srT">👁️ MODO REVISIÓN · GRUPO SAN IGNACIO</div>
+      <div class="srM">Según tu inscripción, <b>te corresponden las charlas de ${(EMPRESAS[mia] || E).n}</b></div>
+      <div class="srS">Además, como revisor, puedes ver las charlas de las otras empresas. Toca una empresa:</div>
+      <div class="srB">${ORDEN_EMP.map(k => { const X = EMPRESAS[k]; return `<button data-e="${k}" class="${k === v ? 'on' : ''}" style="--ec:${X.c1}">${X.logo ? `<img alt="" src="${X.logo}">` : '<span class="srI">INVERSIONES</span>'}<b>${X.corto}</b>${k === mia ? '<i class="srTu">TU EMPRESA</i>' : ''}</button>`; }).join('')}</div>
+      <div class="srV" style="background:${E.c1}">${v === mia ? `Estás viendo las charlas de <b>tu empresa</b>: ${E.n}` : `Estás revisando las charlas de <b>${E.n}</b> (no es tu empresa)`}</div>`;
+    sec.parentNode.insertBefore(d, sec);
+    d.querySelectorAll('button').forEach(b => b.onclick = () => {
+      const y = window.scrollY; VER = b.dataset.e; try { localStorage.setItem('sanig_cap_ver', VER); } catch (e) {}
+      renderHome(); window.scrollTo(0, y);
+    });
+  };
+  const R1 = renderHome;
+  renderHome = function () {
+    const r = R1.apply(this, arguments);
+    try { barraRevisor(); } catch (e) {}
+    return r;
+  };
+  // en cada charla, el revisor ve a qué empresa corresponde
+  if (typeof startLearn === 'function') { const SL = startLearn; startLearn = function () { const r = SL.apply(this, arguments); try { if (esRevisor() && EMPRESAS[EMP_HECHA]) { const t = document.getElementById('lTag'); if (t && t.textContent.indexOf(EMPRESAS[EMP_HECHA].corto.toUpperCase()) < 0) t.textContent = EMPRESAS[EMP_HECHA].corto.toUpperCase() + ' · ' + t.textContent; } } catch (e) {} return r; }; }
+  if (typeof pickTopic === 'function') { const PT = pickTopic; pickTopic = function () { const r = PT.apply(this, arguments); try { if (esRevisor() && EMPRESAS[EMP_HECHA]) { const t = document.getElementById('dTag'); if (t && t.textContent.trim() && t.textContent.indexOf(' · ') < 0) t.textContent = EMPRESAS[EMP_HECHA].corto.toUpperCase() + ' · ' + t.textContent; } } catch (e) {} return r; }; }
+  const cssR = document.createElement('style');
+  cssR.textContent = `#siRev{background:#fff;border-radius:16px;padding:14px;margin:0 0 14px;box-shadow:0 4px 14px rgba(0,0,0,.18);color:#1F2937}
+#siRev .srT{font-weight:bold;font-size:13px;letter-spacing:1px;color:#12357F}#siRev .srM{font-size:15px;margin:6px 0 2px;color:#1F2937;background:#FFF6DA;border-left:5px solid #F2B33D;border-radius:8px;padding:8px 10px}
+#siRev .srTu{font-style:normal;font-size:10px;font-weight:bold;letter-spacing:.5px;background:#F2B33D;color:#0B2457;border-radius:6px;padding:2px 6px}
+#siRev .srS{font-size:14px;margin:4px 0 10px;color:#4A5664}
+#siRev .srB{display:grid;grid-template-columns:1fr 1fr;gap:8px}#siRev .srB button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:78px;background:#F7F8FA;border:2px solid #E2E3E8;border-radius:12px;padding:8px;cursor:pointer;font:inherit;color:#1F2937}
+#siRev .srB button img{height:32px;width:auto;max-width:90%;object-fit:contain}#siRev .srB button b{font-size:13px}
+#siRev .srB button.on{border-color:var(--ec);background:#fff;box-shadow:0 0 0 3px color-mix(in srgb,var(--ec) 25%,transparent)}
+#siRev .srI{font-weight:bold;font-size:12px;letter-spacing:1px;color:#1F3A5F;height:32px;display:flex;align-items:center}
+#siRev .srV{margin-top:10px;color:#fff;border-radius:10px;padding:9px 12px;font-size:14px;text-align:center}`;
+  document.head.appendChild(cssR);
+
   // ---------- 10) Al cargar: empresa de la sesión guardada (o grupo, si nadie ha ingresado)
   try {
     const g = JSON.parse(localStorage.getItem('sanig_cap_ruta') || 'null');
     const e = (RUTA && RUTA.persona && empDe(RUTA.persona)) || (g && g.persona && empDe(g.persona)) || '';
-    if (e) construir(e); else { construir('lacteos'); marcaGrupo(); }
+    if (e) construir(esRevisor() && EMPRESAS[VER] ? VER : e); else { construir('lacteos'); marcaGrupo(); }
     if (typeof renderHome === 'function' && document.getElementById('secciones')) renderHome();
   } catch (e) { try { construir('lacteos'); marcaGrupo(); } catch (e2) {} }
 })();
