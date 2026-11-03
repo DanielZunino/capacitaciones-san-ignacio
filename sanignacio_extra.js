@@ -360,9 +360,9 @@
     // ===== Inducción: conocimiento y prevención (sin foco en el accidente) =====
     { tema: 'induccion', emp: ['lacteos'], tipo: 'vestir', q: '🧩 Actividad: prepara al trabajador para entrar a la planta.',
       items: [['Cofia', 1, 'cofia', { cofia: true }], ['Mascarilla', 1, 'mascarilla', { mask: true }], ['Cotona y pechera blancas', 1, 'pechera', { shirt: '#FFFFFF', apron: '#FFFFFF' }],
-        ['Guantes de nitrilo amarillos', 1, 'guantes#FDD835', { gloves: '#FDD835' }], ['Botas blancas de seguridad', 1, 'botas#FAFAFA', { boots: '#FAFAFA', pants: '#ECEFF1' }],
+        ['Botas blancas de seguridad', 1, 'botas#FAFAFA', { boots: '#FAFAFA', pants: '#ECEFF1' }],
         ['Anillo', 0, 'anillo', null, 'Los anillos se enganchan en las máquinas y pueden caer al queso.'], ['Reloj', 0, 'reloj', null, 'El reloj está prohibido en la planta.']],
-      w: 'Para entrar a la planta: cofia, mascarilla, cotona y pechera blancas, guantes de nitrilo amarillos y botas blancas de seguridad. Sin anillos ni reloj.' },
+      w: 'Para entrar a la planta: cofia, mascarilla, cotona y pechera blancas y botas blancas de seguridad. Sin anillos ni reloj. Los guantes, solo si tu tarea los indica.' },
     { tema: 'induccion', emp: ['lacteos'], tipo: 'tarjetas', q: '🧩 Actividad: ¿así sí o así no? Desliza cada tarjeta.',
       items: [['Caminar por el pasillo peatonal demarcado', 0, 'si_t1_o_vias:R'], ['Meter la mano en una máquina en marcha para sacar un queso', 1, 'si_lq_maq_nointerv'], ['Usar los fonos bien puestos en la zona con ruido', 0, 'si_lq_rui_fonos:L'],
         ['Levantar una carga doblando la espalda', 1, 'si_t1_c_tec:L'], ['Tapar un extintor con cajas', 1, 'si_t2_cuidar:L'], ['Seguir el procedimiento sin saltarse pasos', 0, 'si_in_pts_q']],
@@ -404,9 +404,9 @@
       w: 'Acto inseguro: lo que una persona hace o deja de hacer. Condición insegura: algo del lugar, del equipo o del material que puede causar un accidente.' },
     { tema: 'epp', emp: ['lacteos'], tipo: 'vestir', q: '🧩 Actividad: viste al trabajador con su EPP de la planta.',
       items: [['Cofia', 1, 'cofia', { cofia: true }], ['Mascarilla', 1, 'mascarilla', { mask: true }], ['Cotona y pechera blancas', 1, 'pechera', { shirt: '#FFFFFF', apron: '#FFFFFF' }],
-        ['Guantes de nitrilo amarillos', 1, 'guantes#FDD835', { gloves: '#FDD835' }], ['Botas blancas de seguridad', 1, 'botas#FAFAFA', { boots: '#FAFAFA', pants: '#ECEFF1' }],
+        ['Botas blancas de seguridad', 1, 'botas#FAFAFA', { boots: '#FAFAFA', pants: '#ECEFF1' }],
         ['Gorro de lana', 0, 'gorro_lana', null, 'El pelo va dentro de la cofia, no de un gorro.'], ['Zapatillas', 0, 'zapatillas', null, 'En la planta se usan botas blancas de seguridad.'], ['Pulsera', 0, 'pulsera', null, 'Las pulseras están prohibidas en la planta.']],
-      w: 'En la planta: cotona y pechera blancas, cofia, mascarilla, guantes de nitrilo amarillos y botas blancas de seguridad.' },
+      w: 'En la planta: cotona y pechera blancas, cofia, mascarilla y botas blancas de seguridad. Los guantes, solo si tu tarea los indica.' },
     { tema: 'epp', emp: ['agroex'], tipo: 'vestir', q: '🧩 Actividad: viste al trabajador con su EPP del packing.',
       items: [['Cofia', 1, 'cofia', { cofia: true }], ['Mascarilla', 1, 'mascarilla', { mask: true }], ['Cotona verde o azul', 1, 'cotona#1565C0', { shirt: '#1565C0' }], ['Zapatos de seguridad', 1, 'zapatos', { boots: '#37474F' }],
         ['Anillo', 0, 'anillo', null, 'Los anillos se enganchan en cintas y rodillos.'], ['Sandalias', 0, 'sandalias', null, 'En el packing se usan zapatos de seguridad.'], ['Gorro de lana', 0, 'gorro_lana', null, 'El pelo va completo dentro de la cofia.']],
@@ -664,4 +664,30 @@
     if (e) construir(esRevisor() && EMPRESAS[VER] ? VER : e); else { construir('lacteos'); marcaGrupo(); }
     if (typeof renderHome === 'function' && document.getElementById('secciones')) renderHome();
   } catch (e) { try { construir('lacteos'); marcaGrupo(); } catch (e2) {} }
+})();
+
+// 9e) Imagen de la evaluación: sin restos de globos (la colita queda suelta al ocultar el rótulo).
+// Si el dibujo queda sin sentido al quitarle los rótulos, no se muestra.
+(function () {
+  try {
+    if (typeof renderQ !== 'function' || renderQ.__siQi) return;
+    const SIN_IMG = new Set(['si_in_empresa_q', 'si_t1_a_ley']);
+    const oculto = el => el && el.style && el.style.display === 'none';
+    const pulir = () => { try {
+      const q = st.topic && st.topic.quiz && st.topic.quiz[st.qi]; const box = document.querySelector('#qBody .qimg');
+      if (!box || !q || q.act) return;
+      if (SIN_IMG.has(q.s)) { box.style.display = 'none'; return; }
+      const svg = box.querySelector('svg'); if (!svg) return;
+      // la colita del globo (queda suelta cuando se oculta el globo)
+      const blanco = el => /^(#fff|#ffffff|white)$/i.test(el.getAttribute('fill') || '');
+      svg.querySelectorAll('rect').forEach(r => { if (!oculto(r)) return; const n = r.nextElementSibling;
+        if (!(n && n.tagName === 'path' && blanco(n) && /^M[\d.]+,[\d.]+ l/.test(n.getAttribute('d') || ''))) return;
+        n.style.display = 'none'; const c = n.nextElementSibling;   // y el parche blanco que une la colita con el globo
+        if (c && c.tagName === 'rect' && blanco(c) && !c.getAttribute('rx') && +c.getAttribute('width') <= 20 && +c.getAttribute('height') <= 6) c.style.display = 'none'; });
+    } catch (e) {} };
+    const R0 = renderQ;
+    renderQ = function () { const v = R0.apply(this, arguments); pulir(); return v; };
+    Object.keys(R0).forEach(k => { try { renderQ[k] = R0[k]; } catch (e) {} });
+    renderQ.__siQi = true;
+  } catch (e) {}
 })();
