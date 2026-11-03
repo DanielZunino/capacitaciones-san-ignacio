@@ -313,6 +313,35 @@
   //      Cada actividad cuenta como una pregunta más de la prueba (se registra en la prueba respondida en PDF).
   const TODAS = ORDEN_EMP;
   const SI_ACT = [
+    // Inducción: actividades de conocimiento y prevención (sin foco en el accidente)
+    { tema: 'induccion', emp: ['lacteos'], tipo: 'marca', q: '🧩 Actividad: vas a entrar a la zona de proceso. Toca TODO lo que debes hacer antes.',
+      items: [['Pasar por el pediluvio', 1], ['Lavarme las manos con jabón', 1], ['Ponerme cofia, mascarilla y guantes', 1], ['Sacarme anillos, aros y reloj', 1], ['Entrar mascando chicle', 0], ['Entrar con el pelo fuera de la cofia', 0]],
+      w: 'Antes de entrar: pediluvio, lavado de manos, EPP de higiene completo y sin accesorios. Dentro no se come ni se masca chicle, y el pelo va completo dentro de la cofia.' },
+    { tema: 'induccion', emp: ['lacteos'], tipo: 'clasifica', q: '🧩 Actividad: ¿esto previene un accidente o lo puede causar?',
+      cats: ['Previene', 'Puede causar'],
+      items: [['Caminar por el pasillo peatonal demarcado', 0], ['Meter la mano en una máquina en marcha para sacar un queso', 1], ['Usar los fonos todo el tiempo en la zona con ruido', 0], ['Levantar más de 25 kg sin ayuda', 1], ['Tapar un extintor con gavetas', 1], ['Seguir el procedimiento de trabajo sin saltarse pasos', 0]],
+      w: 'Se previene caminando por los pasillos peatonales, usando el EPP y siguiendo los procedimientos. Intervenir máquinas en marcha, cargar de más o tapar extintores provoca accidentes.' },
+    { tema: 'induccion', emp: ['agroex'], tipo: 'marca', q: '🧩 Actividad: vas a entrar al packing. Toca TODO lo que debes hacer antes.',
+      items: [['Pasar por el pediluvio', 1], ['Lavarme las manos con jabón', 1], ['Ponerme la cofia con todo el pelo adentro', 1], ['Ponerme la mascarilla', 1], ['Sacarme anillos y pulseras', 1], ['Entrar con sandalias', 0], ['Dejar el pelo suelto bajo la cofia', 0]],
+      w: 'Antes de entrar: pediluvio, lavado de manos, cofia con todo el pelo adentro, mascarilla, zapatos de seguridad y sin accesorios.' },
+    { tema: 'induccion', emp: ['agroex'], tipo: 'clasifica', q: '🧩 Actividad: ¿esto previene un accidente o lo puede causar?',
+      cats: ['Previene', 'Puede causar'],
+      items: [['Caminar por el pasillo peatonal, lejos de las grúas', 0], ['Sacar fruta trabada con la cinta andando', 1], ['Cruzar la línea por la pasarela', 0], ['Mover un bin lleno a mano', 1], ['Tomar agua seguido durante el turno', 0], ['Subirse a la cinta detenida para cruzar', 1]],
+      w: 'Se previene caminando por los pasillos y pasarelas, y cuidándose del calor. Intervenir la cinta en marcha, mover bins llenos a mano o subirse a la cinta provoca accidentes.' },
+    { tema: 'induccion', emp: ['agricola'], tipo: 'marca', q: '🧩 Actividad: toca TODO lo que debes usar para trabajar protegido en el huerto.',
+      items: [['Overol', 1], ['Legionario o jockey con cubrenuca', 1], ['Lentes con filtro UV', 1], ['Bloqueador solar', 1], ['Guantes y calzado de seguridad', 1], ['Polera sin mangas', 0], ['Sandalias', 0]],
+      w: 'En el huerto: overol, legionario o jockey con cubrenuca, lentes con filtro UV y bloqueador, más guantes y calzado de seguridad según la labor.' },
+    { tema: 'induccion', emp: ['agricola'], tipo: 'clasifica', q: '🧩 Actividad: ¿esto previene un accidente o lo puede causar?',
+      cats: ['Previene', 'Puede causar'],
+      items: [['Guardar las tijeras en su funda, no tiradas en la hilera', 0], ['Mover un bin lleno a mano', 1], ['Caminar por el borde del camino, donde el tractorista me vea', 0], ['Subirme al tractor como pasajero', 1], ['Ventilar la bodega 30 minutos antes de limpiarla', 0], ['Entrar a un cuartel recién aplicado antes del reingreso', 1]],
+      w: 'Se previene con orden, caminando a la vista del tractorista y ventilando antes de limpiar. Mover bins a mano, viajar en el tractor o entrar antes del reingreso provoca accidentes e intoxicaciones.' },
+    { tema: 'induccion', emp: ['inversiones'], tipo: 'clasifica', q: '🧩 Actividad: en la oficina, ¿esto previene un accidente o lo puede causar?',
+      cats: ['Previene', 'Puede causar'],
+      items: [['Mantener pasillos y salidas libres', 0], ['Un alargador cruzando el paso', 1], ['Subirme a una silla con ruedas para alcanzar un archivo', 1], ['Cerrar los cajones después de usarlos', 0], ['Llevar cajas de archivo pesadas en un carro', 0], ['Dejar cajas apiladas frente a la salida', 1]],
+      w: 'Pasillos y salidas libres, cajones cerrados y carro para lo pesado previenen caídas y golpes. Cables cruzando el paso, subirse a sillas con ruedas o tapar salidas provoca accidentes.' },
+    { tema: 'induccion', emp: ['inversiones'], tipo: 'marca', q: '🧩 Actividad: vas de visita a la planta de quesos. Toca TODO lo que corresponde.',
+      items: [['Ponerme cofia y mascarilla', 1], ['Pasar por el filtro sanitario', 1], ['Caminar por el pasillo peatonal', 1], ['Sacarme anillos y reloj', 1], ['Acercarme a una máquina en marcha para mirar', 0], ['Tocar el producto', 0]],
+      w: 'En la planta se usa el EPP del área, se pasa por el filtro sanitario, se camina por los pasillos peatonales y sin accesorios. No te acerques a máquinas en marcha ni toques el producto.' },
     { tema: 'autocuidado', emp: TODAS, tipo: 'clasifica', q: '🧩 Actividad: clasifica cada situación como acto inseguro o condición insegura.',
       cats: ['Acto inseguro', 'Condición insegura'],
       items: [['[[L:Meter la mano en la selladora en marcha|X:Meter la mano en la calibradora en marcha|A:Pararse en el último peldaño de la escalera|I:Subirse a una silla con ruedas para alcanzar algo]]', 0],
@@ -451,12 +480,12 @@
       const args = arguments, self = this;
       const conNota = st.mode !== 'ds44' && !st.repaso;
       if (!conNota) return SQ.apply(self, args);
-      const T = st.topic.__base || st.topic, n = (T.quiz || []).length, conAct = (T.quiz || []).some(q => q.act);
+      const T = st.topic.__base || st.topic, n = (T.quiz || []).length, conAct = (T.quiz || []).filter(q => q.act).length;
       let m = document.getElementById('siEval'); if (!m) { m = document.createElement('div'); m.id = 'siEval'; document.body.appendChild(m); }
       m.innerHTML = `<div class="seBox"><div class="seIc">📝</div><h3>Ahora viene la evaluación</h3><div class="seT">${T.title}</div>
         <ul><li>❓<span>Vas a responder <b>${n} preguntas</b> sobre lo que acabas de ver.</span></li>
         <li>⭐<span>Para aprobar necesitas <b>todas correctas</b> (nota 7,0).</span></li>
-        ${conAct ? '<li>🧩<span>Una de ellas es una <b>actividad</b>: lee bien las instrucciones antes de tocar.</span></li>' : ''}
+        ${conAct ? `<li>🧩<span>${conAct > 1 ? conAct + ' de ellas son <b>actividades</b>' : 'Una de ellas es una <b>actividad</b>'}: lee bien las instrucciones antes de tocar.</span></li>` : ''}
         <li>⏳<span>Lee con calma. Puedes cambiar tu respuesta antes de pasar a la siguiente.</span></li>
         <li>🔁<span>Si no apruebas, repasas las láminas y vuelves a intentarlo, con preguntas distintas.</span></li></ul>
         <button class="seGo" id="seGo">Comenzar la evaluación</button><button class="seRep" id="seRep">Prefiero repasar las láminas primero</button></div>`;
