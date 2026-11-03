@@ -423,6 +423,39 @@
 .siAct button:disabled{cursor:default}`;
   document.head.appendChild(cssA);
 
+  // ---------- 9d) Aviso antes de la evaluación: no se entra "en seco" a la prueba
+  if (typeof startQuiz === 'function' && !startQuiz.__siAviso) {
+    const SQ = startQuiz;
+    const cssE = document.createElement('style');
+    cssE.textContent = `#siEval{display:none;position:fixed;inset:0;background:rgba(6,18,45,.78);z-index:9998;align-items:center;justify-content:center;padding:18px}
+#siEval.on{display:flex}#siEval .seBox{background:#fff;color:#1F2937;border-radius:20px;max-width:390px;width:100%;padding:22px 20px;text-align:center;border-top:8px solid #F2B33D;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+#siEval .seIc{font-size:44px;line-height:1}#siEval h3{margin:8px 0 4px;font-size:22px;color:#12357F}#siEval .seT{font-size:14px;color:#4A5664;margin-bottom:12px}
+#siEval ul{list-style:none;padding:0;margin:0 0 14px;text-align:left;display:flex;flex-direction:column;gap:8px}
+#siEval li{display:flex;gap:10px;align-items:flex-start;background:#F4F7FC;border-radius:12px;padding:9px 11px;font-size:15px;line-height:1.35}#siEval li b{color:#12357F}
+#siEval .seGo{width:100%;background:#12357F;color:#fff;border:none;border-radius:14px;padding:15px;font:inherit;font-size:17px;font-weight:bold;cursor:pointer}
+#siEval .seRep{width:100%;background:none;border:none;color:#12357F;text-decoration:underline;font:inherit;font-size:15px;margin-top:10px;cursor:pointer}`;
+    document.head.appendChild(cssE);
+    startQuiz = function () {
+      const args = arguments, self = this;
+      const conNota = st.mode !== 'ds44' && !st.repaso;
+      if (!conNota) return SQ.apply(self, args);
+      const T = st.topic.__base || st.topic, n = (T.quiz || []).length, conAct = (T.quiz || []).some(q => q.act);
+      let m = document.getElementById('siEval'); if (!m) { m = document.createElement('div'); m.id = 'siEval'; document.body.appendChild(m); }
+      m.innerHTML = `<div class="seBox"><div class="seIc">📝</div><h3>Ahora viene la evaluación</h3><div class="seT">${T.title}</div>
+        <ul><li>❓<span>Vas a responder <b>${n} preguntas</b> sobre lo que acabas de ver.</span></li>
+        <li>⭐<span>Para aprobar necesitas <b>todas correctas</b> (nota 7,0).</span></li>
+        ${conAct ? '<li>🧩<span>Una de ellas es una <b>actividad</b>: lee bien las instrucciones antes de tocar.</span></li>' : ''}
+        <li>⏳<span>Lee con calma. Puedes cambiar tu respuesta antes de pasar a la siguiente.</span></li>
+        <li>🔁<span>Si no apruebas, repasas las láminas y vuelves a intentarlo, con preguntas distintas.</span></li></ul>
+        <button class="seGo" id="seGo">Comenzar la evaluación</button><button class="seRep" id="seRep">Prefiero repasar las láminas primero</button></div>`;
+      m.className = 'on';
+      try { VOZ.say(`Ahora viene la evaluación. Vas a responder ${n} preguntas. Para aprobar necesitas todas correctas. Lee con calma y toca comenzar.`); } catch (e) {}
+      document.getElementById('seGo').onclick = () => { m.className = ''; try { VOZ.stop && VOZ.stop(); } catch (e) {} SQ.apply(self, args); };
+      document.getElementById('seRep').onclick = () => { m.className = ''; try { VOZ.stop && VOZ.stop(); } catch (e) {} try { startLearn(); } catch (e) {} };
+    };
+    startQuiz.__siAviso = true;
+  }
+
   // ---------- 10) Al cargar: empresa de la sesión guardada (o grupo, si nadie ha ingresado)
   try {
     const g = JSON.parse(localStorage.getItem('sanig_cap_ruta') || 'null');
