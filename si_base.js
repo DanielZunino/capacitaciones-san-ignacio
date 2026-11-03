@@ -6,10 +6,10 @@
 (function () {
   if (window.__siBase) return; window.__siBase = true;
   window.SI_EMP = window.SI_EMP || 'lacteos';
-  // Vestimenta real (Daniel, 03-11-2026): Lácteos = cotona blanca, pechera blanca, cofia, mascarilla, guantes de nitrilo amarillos y botas blancas de seguridad.
+  // Vestimenta real (Daniel, 03-11-2026): Lácteos = cotona blanca, pechera blanca, cofia, mascarilla y botas blancas de seguridad (guantes solo según la tarea, no para entrar a la planta).
   // Agroex = cotona verde o azul, cofia, mascarilla y zapatos de seguridad. Agrícola = overol con su EPP para radiación UV (legionario, lentes).
   const VEST = {
-    lacteos: { helmet: false, cofia: true, mask: true, shirt: '#FFFFFF', pants: '#ECEFF1', boots: '#FAFAFA', apron: '#FFFFFF', gloves: '#FDD835' },
+    lacteos: { helmet: false, cofia: true, mask: true, shirt: '#FFFFFF', pants: '#ECEFF1', boots: '#FAFAFA', apron: '#FFFFFF', gloves: false },
     agroex: { helmet: false, cofia: true, mask: true, shirt: '#2E7D32', pants: '#37474F', gloves: false },
     agricola: { helmet: false, hat: 'legion', glasses: true, shirt: '#1F3A6B', pants: '#1F3A6B', gloves: '#8D6E63' },
     inversiones: { helmet: false, shirt: '#90CAF9', pants: '#37474F' }
