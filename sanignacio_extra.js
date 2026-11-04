@@ -294,21 +294,29 @@
   const otraEmp = () => { if (!esRevisor()) return ''; const v = empVista(), m = empSesion(); return v && m && v !== m ? v : ''; };
   const indDe = k => { const E = EMPRESAS[k]; if (!E) return null; const H = ((RUTA && RUTA.hist) || []).filter(h => h.id === 'induccion' && sinT(h.t).indexOf(sinT(E.corto)) >= 0);
     if (!H.length) return null; const h = H[0], n = parseFloat(String(h.n).replace(',', '.')); return { tema_id: 'induccion', n, nota: h.n, fecha: h.f, codigo: h.c }; };
+  // la PROPIA del revisor: un registro de inducción que no lleve el nombre de otra empresa
+  const indPropia = m => { const otras = Object.keys(EMPRESAS).filter(k => k !== m).map(k => sinT(EMPRESAS[k].corto));
+    const H = ((RUTA && RUTA.hist) || []).filter(h => h.id === 'induccion' && !otras.some(o => sinT(h.t).indexOf(o) >= 0));
+    if (!H.length) return null; const h = H[0], n = parseFloat(String(h.n).replace(',', '.')); return { tema_id: 'induccion', n, nota: h.n, fecha: h.f, codigo: h.c }; };
+  const indVista = () => { if (!esRevisor()) return undefined; const o = otraEmp(); if (o) return indDe(o); const m = empSesion(); return m ? indPropia(m) : undefined; };
   window.__siAjInd = e => { const t = TOPICS.find(x => x.id === 'induccion'); if (!t) return; if (t.__t0 === undefined) t.__t0 = t.title;
     const o = otraEmp(); t.title = o && o === e ? t.__t0 + ' · ' + EMPRESAS[e].corto : t.__t0; };
   const R1 = renderHome;
   renderHome = function () {
     let real = null;
-    try { const o = otraEmp(); if (o && RUTA && RUTA.aprob) { real = RUTA.aprob; const vis = Object.assign({}, real); const ap = indDe(o); if (ap) vis.induccion = ap; else delete vis.induccion; RUTA.aprob = vis; } } catch (e) {}
+    try { const ap = indVista(); if (ap !== undefined && RUTA && RUTA.aprob) { real = RUTA.aprob; const vis = Object.assign({}, real); if (ap) vis.induccion = ap; else delete vis.induccion; RUTA.aprob = vis; } } catch (e) {}
     let r; try { r = R1.apply(this, arguments); } finally { if (real) RUTA.aprob = real; }
-    try { if (real) { const z = document.getElementById('ruta'); if (z) z.querySelectorAll('*').forEach(el => { if (el.childNodes.length === 1 && el.firstChild.nodeType === 3 && /Sin ella no puedes hacer charlas/.test(el.textContent))
+    try { if (real && otraEmp()) { const z = document.getElementById('ruta'); if (z) z.querySelectorAll('*').forEach(el => { if (el.childNodes.length === 1 && el.firstChild.nodeType === 3 && /Sin ella no puedes hacer charlas/.test(el.textContent))
       el.textContent = 'Inducción de esta empresa, pendiente. Como revisor igual puedes ver sus charlas.'; }); } } catch (e) {}
     try { window.__siAjInd(EMP_HECHA); } catch (e) {}
     try { barraRevisor(); } catch (e) {}
     return r;
   };
   if (typeof temaAprobado === 'function') { const TA = temaAprobado;
-    temaAprobado = async function () { try { const o = otraEmp(); if (o && st.topic && st.topic.id === 'induccion') return indDe(o); } catch (e) {} return TA.apply(this, arguments); }; }
+    temaAprobado = async function () { try { if (st.topic && st.topic.id === 'induccion') { const ap = indVista(); if (ap !== undefined) return ap; } } catch (e) {} return TA.apply(this, arguments); }; }
+  if (typeof indInfo === 'function') { const II = indInfo;
+    indInfo = function () { try { const ap = indVista(); if (ap !== undefined) { if (!ap) return { ok: false }; const vence = venceInduccion(ap.fecha), now = Date.now();
+      return { ok: vence > now, vence, renovar: vence - now < 30 * 864e5, nota: ap.nota }; } } catch (e) {} return II.apply(this, arguments); }; }
   // en cada charla, el revisor ve a qué empresa corresponde
   if (typeof startLearn === 'function') { const SL = startLearn; startLearn = function () { const r = SL.apply(this, arguments); try { if (esRevisor() && EMPRESAS[EMP_HECHA]) { const t = document.getElementById('lTag'); if (t && t.textContent.indexOf(EMPRESAS[EMP_HECHA].corto.toUpperCase()) < 0) t.textContent = EMPRESAS[EMP_HECHA].corto.toUpperCase() + ' · ' + t.textContent; } } catch (e) {} return r; }; }
   if (typeof pickTopic === 'function') { const PT = pickTopic; pickTopic = function () { const r = PT.apply(this, arguments); try { if (esRevisor() && EMPRESAS[EMP_HECHA]) { const t = document.getElementById('dTag'); if (t && t.textContent.trim() && t.textContent.indexOf(' · ') < 0) t.textContent = EMPRESAS[EMP_HECHA].corto.toUpperCase() + ' · ' + t.textContent; } } catch (e) {} return r; }; }
