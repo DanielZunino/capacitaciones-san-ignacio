@@ -535,7 +535,7 @@
   try {
     if (typeof tiempoMinimo === 'function' && !tiempoMinimo.__solo) {
       const T1 = tiempoMinimo;
-      const esAdmin = () => { try { return String((typeof st !== 'undefined' && st.rut) || '').replace(/[^0-9kK]/g, '').toUpperCase() === '166756243'; } catch (e) { return false; } };
+      const esAdmin = () => { try { return ['166756243', '16529176K'].indexOf(String((typeof st !== 'undefined' && st.rut) || '').replace(/[^0-9kK]/g, '').toUpperCase()) >= 0 ? true : false; } catch (e) { return false; } };
       tiempoMinimo = function (card) {
         if (esAdmin()) { try { clearInterval(_minT); } catch (e) {} const b = document.getElementById('lNext'); if (b) { b.disabled = false; b.textContent = b.textContent.replace(/ \(\d+\)$/, ''); } return; }
         if (st.repaso) { try { clearInterval(_minT); } catch (e) {} const b = document.getElementById('lNext'); if (b) b.disabled = false; return; }   // tema ya aprobado: repaso sin esperar
