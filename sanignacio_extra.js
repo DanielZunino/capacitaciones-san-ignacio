@@ -111,7 +111,9 @@
     } catch (er) {}
     // inducción: riesgos del puesto y reglamento interno de su empresa
     try {
-      IND_PUESTO = Object.assign({}, window.SI_IND_PUESTO || {});
+      const PK = { lacteos: ['lacteos', 'frio', 'mantencion', 'conductores', 'admin'], agroex: ['packing', 'frio', 'mantencion', 'grua', 'conductores', 'admin'],
+        agricola: ['campo', 'aplicacion', 'tractor', 'mantencion', 'conductores', 'admin'], inversiones: ['admin', 'conductores'] }[e] || Object.keys(window.SI_IND_PUESTO || {});
+      IND_PUESTO = {}; PK.forEach(k => { const v = (window.SI_IND_PUESTO || {})[k]; if (v) IND_PUESTO[k] = window.siTxt(v, e); });
       IND_TRANSV = (window.SI_IND_TRANSV || {})[e] || '';
       IND_REGLAMENTOS = {}; IND_REGLAMENTOS[EMPRESAS[e].n] = SCRIPT_URL + '?riohs=1&e=' + e;
       IND_FORMULARIO = '#inscribirme';
